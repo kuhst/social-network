@@ -1,0 +1,29 @@
+.container {
+	padding  : 20px;
+	font-size: 14px;
+}
+
+.container :first-child {
+	margin-top: 0;
+}
+
+.container h4 {
+	margin: 30px 0 10px;
+}
+
+ul {
+	padding-left: 20px;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color          : #888da8;
+}
+
+a:hover {
+	color: tomato;
+}

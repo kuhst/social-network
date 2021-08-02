@@ -1,0 +1,20 @@
+.container {
+	max-width: 1200px;
+	margin   : 0 auto;
+	padding  : 0 30px;
+}
+
+.block {
+	background-color   : white;
+	border-radius      : 5px;
+	border             : 1px solid #e6ecf5;
+	/* overflow        : hidden; */
+}
+
+.blockName {
+	padding      : 20px;
+	color        : #515365;
+	border-bottom: 1px solid #e6ecf5;
+	font-size    : 16px;
+	font-weight  : 700;
+}

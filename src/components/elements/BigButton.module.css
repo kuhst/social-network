@@ -1,0 +1,31 @@
+.button {
+	display         : block;
+	min-width       : 150px;
+	height          : 35px;
+	padding         : 7px 25px;
+	text-align      : center;
+	color           : white;
+	font-weight     : 700;
+	background-color: tomato;
+	border-radius   : 3px;
+	border          : none;
+	transition      : all ease-in-out .3s;
+}
+
+.button:hover {
+	cursor          : pointer;
+	background-color: #ff8771;
+}
+
+.button:disabled {
+	background: #dddddd;
+}
+
+
+.cancel {
+	background-color: #bbbbbb;
+}
+
+.cancel:hover {
+	background-color: #cfcfcf;
+}

@@ -1,0 +1,33 @@
+.newPosteBlock {
+	padding       : 20px 20px;
+	display       : flex;
+	flex-direction: column;
+}
+
+.newPosteBlock h3 {
+	margin: 0;
+}
+
+.newPosteBlock textarea {
+	margin         : 10px 0;
+	outline        : none;
+	-moz-appearance: none;
+	height         : 20px;
+	resize         : none;
+	overflow       : hidden;
+	border         : 1px solid #e6ecf5;
+	padding        : 10px;
+	font-family    : Roboto;
+	color          : #515365;
+	border-radius  : 5px;
+	transition     : all ease-in-out .3s;
+}
+
+.newPosteBlock textarea:focus {
+	border: 1px solid #ff5e3a;
+	height: 50px;
+}
+
+.newPosteBlock :last-child {
+	align-self: flex-end;
+}
