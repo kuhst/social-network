@@ -17,7 +17,6 @@ let initialState = {
 		photos: {},
 		contacts: {},
 	},
-	logIn: {},
 }
 
 const authReducer = (state = initialState, action) => {
@@ -46,10 +45,12 @@ const authReducer = (state = initialState, action) => {
 	};
 };
 
+
 export const setAuthUserData = (userId, login, email, isAuth) => ({ type: USER_AUTH, data: { userId, login, email, isAuth } });
 export const setUserStatus = (status) => ({ type: SET_STATUS, status });
 export const setUserData = (data) => ({ type: USER_DATA, data: { data } });
 export const setLoading = (loading) => ({ type: SET_LOADING, loading });
+
 
 export const getAuth = () => {
 	return async (dispatch) => {
@@ -66,10 +67,8 @@ export const getAuth = () => {
 		const userStatus = await profileAPI.getStatus(userData.userId);
 
 		dispatch(setUserStatus(userStatus))
-
 	}
 }
-
 
 export const setStatus = (status) => {
 	return async (dispatch) => {
@@ -85,7 +84,7 @@ export const setStatus = (status) => {
 
 export const logIn = (email, password, rememberMe) => {
 	return async (dispatch) => {
-		const response = await authAPI.logIn(email, password, rememberMe)
+		const response = await authAPI.logIn(email, password, rememberMe);
 
 		if (response.resultCode === 0) {
 			dispatch(getAuth())
@@ -102,7 +101,6 @@ export const logOut = () => {
 
 		if (response.resultCode !== 0) return;
 		dispatch(setAuthUserData(null, null, null, false))
-
 	}
 }
 
