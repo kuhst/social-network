@@ -16,8 +16,7 @@ let initialState = {
 	profile: {
 		photos: {},
 		contacts: {},
-	},
-	logIn: {},
+	}
 }
 
 const authReducer = (state = initialState, action) => {
@@ -46,10 +45,12 @@ const authReducer = (state = initialState, action) => {
 	};
 };
 
+
 export const setAuthUserData = (userId, login, email, isAuth) => ({ type: USER_AUTH, data: { userId, login, email, isAuth } });
 export const setUserStatus = (status) => ({ type: SET_STATUS, status });
 export const setUserData = (data) => ({ type: USER_DATA, data: { data } });
 export const setLoading = (loading) => ({ type: SET_LOADING, loading });
+
 
 export const getAuth = () => {
 	return async (dispatch) => {
@@ -69,7 +70,6 @@ export const getAuth = () => {
 
 	}
 }
-
 
 export const setStatus = (status) => {
 	return async (dispatch) => {

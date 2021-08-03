@@ -26,7 +26,7 @@ class Navbar extends React.Component {
 		return (
 			<nav className={`${s.nav} ${style.block}`}>
 				<div className={s.wallpaper}>
-					<img src='https://montegrappa.com.ua/wp-content/uploads/2019/03/Samurai-Banner-1200x400.png' alt='wallpaper'></img>
+					<img src='https://html.crumina.net/html-olympus/img/top-header1.webp' alt='wallpaper'></img>
 				</div>
 				<div className={s.menu}>
 					<div className={s.menuLeft}>

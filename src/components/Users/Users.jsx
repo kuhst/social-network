@@ -6,8 +6,9 @@ import Paginator from '../elements/Paginator';
 
 const Users = ({ usersCount, usersCountOnPage, currentPage, onPageChanged, users, ...props }) => {
 
-	let usersItems = users.map(u => <User key={u.id} id={u.id}
-		name={u.name} photo={u.photos.large} status={u.status}
+	let usersItems = users.map(u => <User
+		key={u.id} id={u.id} name={u.name}
+		photo={u.photos.large} status={u.status}
 		followed={u.followed} isFollowing={props.isFollowing}
 		unfollow={props.unfollow} follow={props.follow} />)
 
