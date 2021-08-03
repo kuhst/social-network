@@ -1,11 +1,8 @@
 import profileReducer, { addPost, deletePost } from "./ProfileReducer";
 
-
-
-test('text of add post should be correct', () => {
-	// 1. Test data
-	let action = addPost('my test');
-	let state = {
+let state = null;
+beforeEach(() => {
+	state = {
 		posts: [
 			{ id: 1, message: 'Hi! It\'s my first post in my social network', likesCount: 1 },
 			{ id: 2, message: 'All work', likesCount: 2 },
@@ -13,6 +10,15 @@ test('text of add post should be correct', () => {
 			{ id: 4, message: 'Long post.', likesCount: 0 },
 		],
 	}
+});
+
+afterEach(() => {
+	state = null;
+});
+
+test('text of add post should be correct', () => {
+	// 1. Test data
+	let action = addPost('my test');
 
 	// 2. action creator
 	let newState = profileReducer(state, action)
@@ -24,14 +30,6 @@ test('text of add post should be correct', () => {
 test('length of post should be incremented', () => {
 	// 1. Test data
 	let action = addPost('my test');
-	let state = {
-		posts: [
-			{ id: 1, message: 'Hi! It\'s my first post in my social network', likesCount: 1 },
-			{ id: 2, message: 'All work', likesCount: 2 },
-			{ id: 3, message: 'Some post here', likesCount: 5 },
-			{ id: 4, message: 'Long post.', likesCount: 0 },
-		],
-	}
 
 	// 2. action creator
 	let newState2 = profileReducer(state, action)
@@ -43,14 +41,6 @@ test('length of post should be incremented', () => {
 test('after deleting length should be decremented', () => {
 	// 1. Test data
 	let action = deletePost(3);
-	let state = {
-		posts: [
-			{ id: 1, message: 'Hi! It\'s my first post in my social network', likesCount: 1 },
-			{ id: 2, message: 'All work', likesCount: 2 },
-			{ id: 3, message: 'Some post here', likesCount: 5 },
-			{ id: 4, message: 'Long post.', likesCount: 0 },
-		],
-	}
 
 	// 2. action creator
 	let newState = profileReducer(state, action)
