@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Header from './Header';
 import { setStatus, logOut } from '../../redux/AuthReducer';
-import { getIsAuth, getLoadingStatus, getMiId, getMiLogin, getMiPhotoSmall, getMiStatus } from '../../redux/authSelector';
+import { getIsAuth, getLoadingStatus, getLogin, getStatus, getUserId } from '../../redux/authSelector';
+import { getUserSmallPhoto } from '../../redux/profileSelector';
 
 
 class HeaderContainer extends React.Component {
@@ -21,10 +22,10 @@ class HeaderContainer extends React.Component {
 
 const mapStateToProps = (state) => ({
 	isAuth: getIsAuth(state),
-	userId: getMiId(state),
-	login: getMiLogin(state),
-	status: getMiStatus(state),
-	photo: getMiPhotoSmall(state),
+	userId: getUserId(state),
+	login: getLogin(state),
+	status: getStatus(state),
+	photo: getUserSmallPhoto(state),
 	loading: getLoadingStatus(state),
 })
 
