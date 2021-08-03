@@ -12,7 +12,7 @@ let initialState = {
 	email: null,
 	isAuth: false,
 	isLoading: false,
-	status: '',
+	status: null,
 	profile: {
 		photos: {},
 		contacts: {},

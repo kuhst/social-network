@@ -3,6 +3,7 @@ import { profileAPI } from "../api/api";
 const ADD_POST = 'profile_ADD_POST';
 const DELETE_POST = 'profile_DELETE_POST';
 const SET_USER_PROFILE = 'profile_SET_USER_PROFILE';
+const SET_USER_STATUS = 'profile_SET_USER_STATUS';
 
 let initialState = {
 	posts: [
@@ -17,6 +18,7 @@ let initialState = {
 		aboutMe: null,
 		lookingForAJob: false,
 		lookingForAJobDescription: null,
+		status: null,
 		photos: {
 			small: null,
 			large: null
@@ -54,23 +56,31 @@ const profileReducer = (state = initialState, action) => {
 			return {
 				...state,
 				userProfile: action.userProfile,
-			}
+			};
+		case SET_USER_STATUS:
+			return {
+				...state,
+				userProfile: { ...state.userProfile, status: action.status }
+			};
 		default: return state;
 	};
 };
 
 export const addPost = (postText) => ({ type: ADD_POST, postText });
 export const deletePost = (postId) => ({ type: DELETE_POST, postId });
-// export const addPost = (postText) => ({ type: ADD_POST, post: postText.postText });
+export const setUserStatus = (status) => ({ type: SET_USER_STATUS, status });
 export const setUserProfile = (userProfile) => ({ type: SET_USER_PROFILE, userProfile });
 
 
 export const getUser = (userId) => {
 	return async (dispatch) => {
-		if (!userId) { userId = 18192 };
 		const userProfile = await profileAPI.getUser(userId);
 
 		dispatch(setUserProfile(userProfile));
+
+		const userStatus = await profileAPI.getStatus(userId);
+
+		dispatch(setUserStatus(userStatus))
 	}
 }
 

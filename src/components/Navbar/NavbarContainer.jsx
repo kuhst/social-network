@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 import { setUserProfile } from '../../redux/ProfileReducer';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { getUserAboutMe, getUserName, getUserSmallPhoto } from '../../redux/profileSelector';
+import { getUserName, getUserSmallPhoto, getUserStatus } from '../../redux/profileSelector';
 import { getIsAuth } from '../../redux/authSelector';
 
 class NavbarContainer extends React.Component {
@@ -13,7 +13,7 @@ class NavbarContainer extends React.Component {
 			userName={this.props.userName}
 			userPhoto={this.props.userPhoto}
 			isAuth={this.props.isAuth}
-			aboutMe={this.props.aboutMe} />
+			status={this.props.status} />
 	}
 }
 
@@ -21,7 +21,7 @@ const mapStateToProps = (state) => {
 	return {
 		userName: getUserName(state),
 		userPhoto: getUserSmallPhoto(state),
-		aboutMe: getUserAboutMe(state),
+		status: getUserStatus(state),
 		isAuth: getIsAuth(state),
 	}
 }

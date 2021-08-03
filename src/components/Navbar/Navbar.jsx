@@ -7,7 +7,7 @@ import MenuItem from './MenuItem';
 class Navbar extends React.Component {
 	render() {
 		let photoUrl = !this.props.userPhoto ? userPhoto : this.props.userPhoto;
-		let aboutMe = !this.props.aboutMe ? '' : <div className={s.aboutMe}>{this.props.aboutMe}</div>;
+		let status = !this.props.status ? '' : <div className={s.status}>{this.props.status}</div>;
 		let navItems = [
 			{ link: '/profile', forInitialized: true },
 			{ link: '/dialogs', forInitialized: true },
@@ -39,7 +39,7 @@ class Navbar extends React.Component {
 							<div className={s.userPhoto}><img src={photoUrl} alt='userPhoto'></img></div>
 							<div className={s.userName}>
 								{this.props.userName}
-								{aboutMe}
+								{status}
 							</div>
 						</div>
 						<div className={s.menuRight}>

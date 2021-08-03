@@ -14,6 +14,10 @@ export const getUserName = (state) => {
 	return state.profilePage.userProfile.fullName
 }
 
+export const getUserStatus = (state) => {
+	return state.profilePage.userProfile.status
+}
+
 export const getUserSmallPhoto = (state) => {
 	return state.profilePage.userProfile.photos.small
 }

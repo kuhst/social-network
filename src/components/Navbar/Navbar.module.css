@@ -76,7 +76,7 @@
 	font-size  : 1.5em;
 }
 
-.aboutMe {
+.status {
 	position   : absolute;
 	left       : 50%;
 	transform  : translateX(-50%);
