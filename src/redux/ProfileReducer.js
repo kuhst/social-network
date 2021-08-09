@@ -75,11 +75,9 @@ export const setUserProfile = (userProfile) => ({ type: SET_USER_PROFILE, userPr
 export const getUser = (userId) => {
 	return async (dispatch) => {
 		const userProfile = await profileAPI.getUser(userId);
-
 		dispatch(setUserProfile(userProfile));
 
 		const userStatus = await profileAPI.getStatus(userId);
-
 		dispatch(setUserStatus(userStatus))
 	}
 }

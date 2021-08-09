@@ -10,7 +10,9 @@ const FriendBlock = (props) => {
 	return (
 		<div className={style.block}>
 			<div className={style.blockName}>
-				Friends ({props.friends.length})
+				<span className={style.comingSoon}>
+					Friends ({props.friends.length})
+				</span>
 			</div>
 			<div className={s.container}>
 				{friends}

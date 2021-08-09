@@ -14,6 +14,10 @@ export const getUserName = (state) => {
 	return state.profilePage.userProfile.fullName
 }
 
+export const getUserId = (state) => {
+	return state.profilePage.userProfile.userId
+}
+
 export const getUserStatus = (state) => {
 	return state.profilePage.userProfile.status
 }

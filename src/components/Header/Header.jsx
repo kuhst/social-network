@@ -57,7 +57,7 @@ const Header = (props) => {
 					<span className={s.secondName}>social network</span>
 				</div>
 				<div className={s.freeSpace}></div>
-				<input placeholder="Search here..." className={s.search} />
+				<input placeholder="Search here..." className={s.search + ' ' + style.comingSoon} />
 				{props.isAuth ? user : login}
 			</div>
 		</header >

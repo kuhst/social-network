@@ -5,6 +5,7 @@ const USER_AUTH = 'auth_USER_AUTH';
 const SET_STATUS = 'auth_GET_STATUS';
 const USER_DATA = 'auth_USER_DATA';
 const SET_LOADING = 'auth_SET_LOADING';
+const SET_USER_PHOTO_SUCCESS = 'auth_SET_USER_PHOTO_SUCCESS';
 
 let initialState = {
 	userId: null,
@@ -41,6 +42,11 @@ const authReducer = (state = initialState, action) => {
 				...state,
 				isLoading: action.loading,
 			}
+		case SET_USER_PHOTO_SUCCESS:
+			return {
+				...state,
+				profile: { ...state.profile, photos: action.photos },
+			}
 		default: return state;
 	};
 };
@@ -50,7 +56,7 @@ export const setAuthUserData = (userId, login, email, isAuth) => ({ type: USER_A
 export const setUserStatus = (status) => ({ type: SET_STATUS, status });
 export const setUserData = (data) => ({ type: USER_DATA, data: { data } });
 export const setLoading = (loading) => ({ type: SET_LOADING, loading });
-
+export const setUserPhotoSuccess = (photos) => ({ type: SET_USER_PHOTO_SUCCESS, photos });
 
 export const getAuth = () => {
 	return async (dispatch) => {
@@ -105,5 +111,16 @@ export const logOut = () => {
 
 	}
 }
+
+export const setUserPhoto = (file) => {
+	return async (dispatch) => {
+		const response = await profileAPI.setPhoto(file);
+
+		if (response.data.resultCode !== 0) return;
+		dispatch(setUserPhotoSuccess(response.data.data.photos));
+
+	}
+}
+
 
 export default authReducer;

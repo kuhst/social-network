@@ -49,5 +49,14 @@ export const profileAPI = {
 	},
 	setStatus(status) {
 		return instance.put('/profile/status', { status })
+	},
+	setPhoto(filePhoto) {
+		const formData = new FormData();
+		formData.append("image", filePhoto);
+		return instance.put('/profile/photo', formData, {
+			headers: {
+				"content-type": "multipart/form-data"
+			}
+		})
 	}
 };

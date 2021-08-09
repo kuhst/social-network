@@ -28,21 +28,23 @@ class App extends React.Component {
 
     return (
       <div>
-        <HeaderContainer />
-        <div className='app-wrapper'>
-          <NavbarContainer />
-          <div className='app-wrapper-content'>
-            <Route path='/dialogs' render={withSuspense(DialogsContainer)} />
-            <Route path='/profile/:userId?' render={() => <ProfileContainer />} />
-            <Route path='/news' render={withSuspense(News)} />
-            <Route path='/music' render={withSuspense(Music)} />
-            <Route path='/users/:userId?' render={withSuspense(UsersContainer)} />
-            <Route path='/settings' render={withSuspense(Settings)} />
-            <Route path='/login' render={withSuspense(Login)} />
-          </div>
-          <div className='app-wrapper-right'>
-            <ProfileIntroContainer />
-            <FriendsBlockContainer />
+        <Route path='/login' render={withSuspense(Login)} />
+        <div>
+          <HeaderContainer />
+          <div className='app-wrapper'>
+            <NavbarContainer />
+            <div className='app-wrapper-content'>
+              <Route path='/dialogs' render={withSuspense(DialogsContainer)} />
+              <Route path='/profile/:userId?' render={() => <ProfileContainer />} />
+              <Route path='/news' render={withSuspense(News)} />
+              <Route path='/music' render={withSuspense(Music)} />
+              <Route path='/users' render={withSuspense(UsersContainer)} />
+              <Route path='/settings' render={withSuspense(Settings)} />
+            </div>
+            <div className='app-wrapper-right'>
+              <ProfileIntroContainer />
+              <FriendsBlockContainer />
+            </div>
           </div>
         </div>
       </div>
