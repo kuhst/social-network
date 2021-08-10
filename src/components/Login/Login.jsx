@@ -16,7 +16,7 @@ const LoginForm = ({ handleSubmit, error }) => {
 		<form onSubmit={handleSubmit} className={s.inputBlock}>
 			<Field component={Input} validate={required} placeholder='eMail' name='email' />
 			<Field component={Input} validate={required} placeholder='Password' name='password' type='password' />
-			{error && <div className={s.errorSubmitForm}>{error}</div>}
+			{error && <div className={style.errorSubmitForm}>{error}</div>}
 			<div className={s.sendBlock}>
 				<Field component={Input} type='checkbox' name='rememberMe' description='Remember me' />
 				<BigButton value='Sign in' />

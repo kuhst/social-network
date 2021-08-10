@@ -116,7 +116,7 @@ export const setUserPhoto = (file) => {
 	return async (dispatch) => {
 		const response = await profileAPI.setPhoto(file);
 
-		if (response.data.resultCode !== 0) return;
+		if (response.data.resultCode === 0) return;
 		dispatch(setUserPhotoSuccess(response.data.data.photos));
 
 	}

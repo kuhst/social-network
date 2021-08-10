@@ -5,18 +5,22 @@ import BigButton from '../elements/BigButton';
 import s from './ProfileInfo.module.css';
 import { createField, Input, Textarea } from '../elements/FormsControls';
 import Preloader from '../elements/Preloader';
+import { maxLength, required } from '../../utils/validators';
+
+const maxLength1000 = maxLength(1000);
+const maxLength30 = maxLength(30);
 
 
-const ProfileInfoForm = ({ handleSubmit }) => {
+const ProfileInfoForm = ({ handleSubmit, error, isFetching }) => {
 	return (
 		<form className={s.form} onSubmit={handleSubmit}>
 			<div className={s.profile}>
-				{createField('', 'fullName', [], Input, 'Full name', {})}
-				{createField('', 'aboutMe', [], Textarea, 'About me', { rows: 1 })}
+				{createField('', 'fullName', [required, maxLength30], Input, 'Full name', {})}
+				{createField('', 'aboutMe', [required, maxLength1000], Textarea, 'About me', { rows: 1 })}
 			</div>
 			<div className={s.job}>
 				{createField('', 'lookingForAJob', [], Input, 'Looking for a job ', { type: 'checkbox' })}
-				{createField('', 'lookingForAJobDescription', [], Textarea, 'Looking for a job description', { rows: 1 })}
+				{createField('', 'lookingForAJobDescription', [required, maxLength1000], Textarea, 'Looking for a job description', { rows: 1 })}
 			</div>
 			<div className={s.contacts}>
 				{createField('', 'contacts.github', [], Input, 'GitHub', {})}
@@ -28,8 +32,12 @@ const ProfileInfoForm = ({ handleSubmit }) => {
 				{createField('', 'contacts.youtube', [], Input, 'YouTube', {})}
 				{createField('', 'contacts.mainLink', [], Input, 'My website', {})}
 			</div>
+			{error && <div className={style.errorSubmitForm}>{error}</div>}
 			<div className={s.sendBlock}>
 				<BigButton value='Save' />
+				<div className={s.preloader}>
+					{isFetching && <Preloader />}
+				</div>
 			</div>
 		</form>
 	)
@@ -52,9 +60,7 @@ class ProfileInfo extends React.Component {
 				<div className={style.blockName}>
 					Personal Information
 				</div>
-				{this.props.isFetching
-					? <Preloader />
-					: <ProfileControlReduxForm initialValues={this.props.profile} onSubmit={this.onSubmit} />}
+				<ProfileControlReduxForm isFetching={this.props.isFetching} initialValues={this.props.profile} onSubmit={this.onSubmit} />
 			</div>
 		)
 	}

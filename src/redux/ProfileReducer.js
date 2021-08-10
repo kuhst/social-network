@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form";
 import { profileAPI } from "../api/api";
 import { setMiData } from "./AuthReducer";
 
@@ -99,9 +100,21 @@ export const setProfileInfo = (profileData) => {
 		if (response.data.resultCode === 0) {
 			const miData = await profileAPI.getUser(userId)
 			dispatch(setMiData(miData))
-			dispatch(setFetching(false))
+		} else {
+			let contactsError = {};
+			let otherError = {};
+			response.data.messages.forEach(element => {
+				let key = element.slice((element.indexOf('Contacts->') + 10), (element.length - 1)).toLowerCase();
+				let value = element.slice(0, (element.indexOf('(Contacts->') - 1));
+				if (element.includes('Contacts->')) {
+					contactsError[key] = value;
+				} else {
+					otherError._error = element;
+				}
+			});
+			dispatch(stopSubmit('ProfileInfo', { ...otherError, 'contacts': contactsError }))
 		}
-
+		dispatch(setFetching(false))
 	}
 }
 

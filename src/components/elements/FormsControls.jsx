@@ -9,7 +9,7 @@ const Element = Element => ({ meta, input, ...props }) => {
 		<div className={s.inputContainer + ' ' + (hasErr ? s.error : '')}>
 			<Element {...input} {...props} className={s.input} />
 			{props.description ? <span className={s.description}>{props.description}</span> : ''}
-			{hasErr && <div className={s.errorMessage}><span>{meta.error}</span></div>}
+			{hasErr && <div className={s.errorMessage}>{meta.error}</div>}
 		</div>
 	)
 }

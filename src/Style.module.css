@@ -36,3 +36,11 @@
 	opacity         : 30%;
 	z-index         : 1;
 }
+
+.errorSubmitForm {
+	font-size       : 14px;
+	max-width       : max-content;
+	padding         : 5px 15px;
+	background-color: rgba(250, 128, 114, 0.267);
+	color           : #515365
+}
