@@ -14,7 +14,7 @@ let initialState = {
 	usersCount: 0,
 	usersCountOnPage: 12,
 	currentPage: 1,
-	isFetching: true,
+	isFetching: false,
 	isFollowing: []
 }
 

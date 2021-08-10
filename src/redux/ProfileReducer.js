@@ -1,9 +1,11 @@
 import { profileAPI } from "../api/api";
+import { setMiData } from "./AuthReducer";
 
 const ADD_POST = 'profile_ADD_POST';
 const DELETE_POST = 'profile_DELETE_POST';
 const SET_USER_PROFILE = 'profile_SET_USER_PROFILE';
 const SET_USER_STATUS = 'profile_SET_USER_STATUS';
+const SET_FETCHING = 'profile_SET_FETCHING';
 
 let initialState = {
 	posts: [
@@ -34,6 +36,7 @@ let initialState = {
 			mainLink: null
 		},
 	},
+	isFetching: false
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -57,6 +60,11 @@ const profileReducer = (state = initialState, action) => {
 				...state,
 				userProfile: action.userProfile,
 			};
+		case SET_FETCHING:
+			return {
+				...state,
+				isFetching: action.fetching,
+			};
 		case SET_USER_STATUS:
 			return {
 				...state,
@@ -70,6 +78,7 @@ export const addPost = (postText) => ({ type: ADD_POST, postText });
 export const deletePost = (postId) => ({ type: DELETE_POST, postId });
 export const setUserStatus = (status) => ({ type: SET_USER_STATUS, status });
 export const setUserProfile = (userProfile) => ({ type: SET_USER_PROFILE, userProfile });
+export const setFetching = (fetching) => ({ type: SET_FETCHING, fetching });
 
 
 export const getUser = (userId) => {
@@ -81,5 +90,20 @@ export const getUser = (userId) => {
 		dispatch(setUserStatus(userStatus))
 	}
 }
+
+export const setProfileInfo = (profileData) => {
+	return async (dispatch, getState) => {
+		const userId = getState().auth.userId;
+		dispatch(setFetching(true))
+		const response = await profileAPI.setProfileInfo(profileData);
+		if (response.data.resultCode === 0) {
+			const miData = await profileAPI.getUser(userId)
+			dispatch(setMiData(miData))
+			dispatch(setFetching(false))
+		}
+
+	}
+}
+
 
 export default profileReducer;

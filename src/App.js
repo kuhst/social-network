@@ -13,7 +13,7 @@ import { compose } from 'redux';
 import withSuspense from './hoc/withSuspense';
 
 const Login = React.lazy(() => import('./components/Login/Login'));
-const Settings = React.lazy(() => import('./components/Settings/Settings'));
+const ProfileInfoContainer = React.lazy(() => import('./components/Settings/ProfileInfoContainer'));
 const News = React.lazy(() => import('./components/News/News'));
 const Music = React.lazy(() => import('./components/Music/Music'));
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
@@ -36,10 +36,11 @@ class App extends React.Component {
             <div className='app-wrapper-content'>
               <Route path='/dialogs' render={withSuspense(DialogsContainer)} />
               <Route path='/profile/:userId?' render={() => <ProfileContainer />} />
+              {/* <Route path='/profile/settings' render={withSuspense(ProfileInfoContainer)} /> */}
               <Route path='/news' render={withSuspense(News)} />
               <Route path='/music' render={withSuspense(Music)} />
               <Route path='/users' render={withSuspense(UsersContainer)} />
-              <Route path='/settings' render={withSuspense(Settings)} />
+              <Route path='/settings' render={withSuspense(ProfileInfoContainer)} />
             </div>
             <div className='app-wrapper-right'>
               <ProfileIntroContainer />

@@ -50,6 +50,9 @@ export const profileAPI = {
 	setStatus(status) {
 		return instance.put('/profile/status', { status })
 	},
+	setProfileInfo(profileData) {
+		return instance.put('/profile', profileData)
+	},
 	setPhoto(filePhoto) {
 		const formData = new FormData();
 		formData.append("image", filePhoto);

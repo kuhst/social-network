@@ -33,3 +33,7 @@ export const getUserLargePhoto = (state) => {
 export const getUserAboutMe = (state) => {
 	return state.profilePage.userProfile.aboutMe
 }
+
+export const getMiProfileFetching = (state) => {
+	return state.profilePage.isFetching
+}

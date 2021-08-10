@@ -14,6 +14,10 @@ export const getMiStatus = (state) => {
 	return state.auth.status;
 }
 
+export const getMiProfile = (state) => {
+	return state.auth.profile;
+}
+
 export const getMiPhotoSmall = (state) => {
 	return state.auth.profile.photos.small;
 }

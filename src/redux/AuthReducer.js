@@ -53,8 +53,8 @@ const authReducer = (state = initialState, action) => {
 
 
 export const setAuthUserData = (userId, login, email, isAuth) => ({ type: USER_AUTH, data: { userId, login, email, isAuth } });
-export const setUserStatus = (status) => ({ type: SET_STATUS, status });
-export const setUserData = (data) => ({ type: USER_DATA, data: { data } });
+export const setMiStatus = (status) => ({ type: SET_STATUS, status });
+export const setMiData = (data) => ({ type: USER_DATA, data: { data } });
 export const setLoading = (loading) => ({ type: SET_LOADING, loading });
 export const setUserPhotoSuccess = (photos) => ({ type: SET_USER_PHOTO_SUCCESS, photos });
 
@@ -68,11 +68,11 @@ export const getAuth = () => {
 
 		const userData = await profileAPI.getUser(id);
 
-		dispatch(setUserData(userData));
+		dispatch(setMiData(userData));
 
 		const userStatus = await profileAPI.getStatus(userData.userId);
 
-		dispatch(setUserStatus(userStatus))
+		dispatch(setMiStatus(userStatus))
 
 	}
 }
@@ -85,7 +85,7 @@ export const setStatus = (status) => {
 
 		dispatch(setLoading(false))
 		if (response.data.resultCode !== 0) return;
-		dispatch(setUserStatus(status))
+		dispatch(setMiStatus(status))
 	}
 }
 

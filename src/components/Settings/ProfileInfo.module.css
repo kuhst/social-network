@@ -1,0 +1,77 @@
+.form {
+	display : grid;
+	grid-gap: 20px;
+	padding : 25px
+}
+
+.profile {
+	display              : grid;
+	grid-gap             : 20px;
+	grid-template-columns: 30% 1fr;
+}
+
+.form input {
+	max-width    : 100%;
+	font-size    : 14px;
+	border       : 1px solid #e6ecf5;
+	border-radius: 3px;
+	color        : #515365;
+	padding      : 27px 20px 12px;
+	outline      : none;
+	transition   : all .3s ease-in-out;
+}
+
+.form input:focus {
+	border-color: tomato;
+}
+
+.profile>div {
+	position: relative;
+	height  : 100%;
+}
+
+.form span {
+	position : absolute;
+	font-size: 12px;
+	top      : 8px;
+	left     : 20px;
+	max-width: max-content;
+}
+
+.form input[type="checkbox"] {
+	max-width: min-content;
+}
+
+.form input[type="checkbox"]~span {
+	position : relative;
+	font-size: 14px;
+	top      : 0;
+	left     : 0;
+}
+
+.form textarea {
+	display        : block;
+	outline        : none;
+	-moz-appearance: none;
+	width          : 100%;
+	padding        : 27px 20px 12px;
+	margin         : 0;
+	resize         : none;
+	overflow       : hidden;
+	border         : 1px solid #e6ecf5;
+	font-family    : Roboto;
+	color          : #515365;
+	border-radius  : 5px;
+	transition     : all ease-in-out .3s;
+}
+
+.job {
+	display : grid;
+	grid-gap: 20px;
+}
+
+.contacts {
+	display              : grid;
+	grid-gap             : 20px;
+	grid-template-columns: 1fr 1fr;
+}

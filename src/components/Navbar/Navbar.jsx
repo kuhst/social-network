@@ -4,7 +4,6 @@ import style from '../../Style.module.css';
 import userPhoto from '../../assets/images/user.jpg';
 import MenuItem from './MenuItem';
 import iconSliders from '../../assets/images/sliders.svg'
-import { NavLink } from 'react-router-dom';
 
 class Navbar extends React.Component {
 	onPhotoChange = (event) => {

@@ -11,12 +11,12 @@ import { Redirect } from 'react-router-dom';
 
 const Input = Element('input');
 
-const LoginForm = (props) => {
+const LoginForm = ({ handleSubmit, error }) => {
 	return (
-		<form onSubmit={props.handleSubmit} className={s.inputBlock}>
+		<form onSubmit={handleSubmit} className={s.inputBlock}>
 			<Field component={Input} validate={required} placeholder='eMail' name='email' />
 			<Field component={Input} validate={required} placeholder='Password' name='password' type='password' />
-			{props.error && <div className={s.errorSubmitForm}>{props.error}</div>}
+			{error && <div className={s.errorSubmitForm}>{error}</div>}
 			<div className={s.sendBlock}>
 				<Field component={Input} type='checkbox' name='rememberMe' description='Remember me' />
 				<BigButton value='Sign in' />
