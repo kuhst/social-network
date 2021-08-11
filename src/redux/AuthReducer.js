@@ -68,6 +68,7 @@ export const setCaptchaURL = (captchaURL) => ({ type: SET_CAPTCHA_URL, captchaUR
 
 export const getAuth = () => {
 	return async (dispatch) => {
+		dispatch(setCaptchaURL(null))
 		const response = await authAPI.getAuth();
 
 		if (response.resultCode !== 0) return;
