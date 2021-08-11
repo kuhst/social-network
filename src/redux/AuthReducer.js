@@ -6,11 +6,13 @@ const SET_STATUS = 'auth_GET_STATUS';
 const USER_DATA = 'auth_USER_DATA';
 const SET_LOADING = 'auth_SET_LOADING';
 const SET_USER_PHOTO_SUCCESS = 'auth_SET_USER_PHOTO_SUCCESS';
+const SET_CAPTCHA_URL = 'auth_SET_CAPTCHA_URL';
 
 let initialState = {
 	userId: null,
 	login: null,
 	email: null,
+	captchaURL: null,
 	isAuth: false,
 	isLoading: false,
 	status: null,
@@ -26,6 +28,11 @@ const authReducer = (state = initialState, action) => {
 			return {
 				...state,
 				...action.data,
+			}
+		case SET_CAPTCHA_URL:
+			return {
+				...state,
+				captchaURL: action.captchaURL,
 			}
 		case USER_DATA:
 			return {
@@ -57,6 +64,7 @@ export const setMiStatus = (status) => ({ type: SET_STATUS, status });
 export const setMiData = (data) => ({ type: USER_DATA, data: { data } });
 export const setLoading = (loading) => ({ type: SET_LOADING, loading });
 export const setUserPhotoSuccess = (photos) => ({ type: SET_USER_PHOTO_SUCCESS, photos });
+export const setCaptchaURL = (captchaURL) => ({ type: SET_CAPTCHA_URL, captchaURL });
 
 export const getAuth = () => {
 	return async (dispatch) => {
@@ -89,13 +97,17 @@ export const setStatus = (status) => {
 	}
 }
 
-export const logIn = (email, password, rememberMe) => {
+export const logIn = (email, password, rememberMe, captchaCode) => {
 	return async (dispatch) => {
-		const response = await authAPI.logIn(email, password, rememberMe)
+		const response = await authAPI.logIn(email, password, rememberMe, captchaCode)
 
 		if (response.resultCode === 0) {
 			dispatch(getAuth())
 		} else {
+			if (response.resultCode === 10) {
+				const captcha = await authAPI.getCaptcha()
+				dispatch(setCaptchaURL(captcha.url))
+			}
 			let action = stopSubmit('login', { _error: response.messages });
 			dispatch(action)
 		}
