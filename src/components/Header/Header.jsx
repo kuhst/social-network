@@ -4,7 +4,7 @@ import style from '../../Style.module.css';
 import s from './Header.module.css';
 import userPhoto from '../../assets/images/user.jpg';
 import preloaderImage from '../../assets/images/preloaderPoint.svg';
-import ProfileMenu from './Settings/ProfileMenu';
+import ProfileMenu from './ProfileMenu/ProfileMenu';
 
 
 const Header = (props) => {

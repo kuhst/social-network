@@ -27,7 +27,7 @@ const ProfileMenu = React.memo((props) => {
 					YOUR ACCOUNT
 				</div>
 				<ul className={s.menuList}>
-					<NavLink to={'/settings'}>
+					<NavLink to={'/profile/settings'}>
 						<li className={s.menuLink}>
 							Profile Settings
 						</li>

@@ -56,20 +56,23 @@ class Navbar extends React.Component {
 						</div>
 					</>}
 				</div>
-				<div className={s.photoUpload}>
-					<img src={iconSliders} alt='Controls' />
-					<div className={s.menuPhoto}>
-						<div className={style.block + ' ' + s.container}>
-							<label className={s.label}>
-								<span className={s.uploadFileText}>Upload profile photo</span>
-								<input type='file' onChange={this.onPhotoChange} className={s.uploadFileInput} />
-							</label>
-							<label>
-								<span className={s.uploadFileText + ' ' + style.comingSoon}>Upload header photo</span>
-							</label>
+				{this.props.isMiProfile && <>
+					<div className={s.photoUpload}>
+						<img src={iconSliders} alt='Controls' />
+						<div className={s.menuPhoto}>
+							<div className={style.block + ' ' + s.container}>
+								<label className={s.label}>
+									<span className={s.uploadFileText}>Upload profile photo</span>
+									<input type='file' onChange={this.onPhotoChange} className={s.uploadFileInput} />
+								</label>
+								<label>
+									<span className={s.uploadFileText + ' ' + style.comingSoon}>Upload header photo</span>
+								</label>
+							</div>
 						</div>
 					</div>
-				</div>
+				</>
+				}
 			</nav>
 		)
 	}

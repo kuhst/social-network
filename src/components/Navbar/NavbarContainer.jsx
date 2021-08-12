@@ -16,7 +16,6 @@ class NavbarContainer extends React.Component {
 	componentDidUpdate = (prevProps) => {
 		if (this.isMiProfile()) {
 			if (this.props.status !== this.props.miStatus) {
-				console.log('navbar', this.props.status, this.props.miStatus);
 				this.props.getUser(this.props.miId)
 			}
 		}
