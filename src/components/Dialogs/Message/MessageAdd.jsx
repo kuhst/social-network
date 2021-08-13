@@ -22,7 +22,7 @@ const MessageReduxForm = reduxForm({
 
 const MessageAdd = (props) => {
 	let onSubmit = (formData) => {
-		props.addMessage(formData)
+		props.addMessage(formData.textMessage)
 	}
 	return (
 		<div >

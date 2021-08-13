@@ -19,7 +19,7 @@ export const getUserId = (state) => {
 }
 
 export const getUserStatus = (state) => {
-	return state.profilePage.userProfile.status
+	return state.profilePage.userStatus
 }
 
 export const getUserSmallPhoto = (state) => {
