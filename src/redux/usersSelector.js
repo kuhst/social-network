@@ -18,8 +18,8 @@ export const getIsFetching = (state) => {
 	return state.usersPage.isFetching;
 }
 
-export const getIsFollowing = (state) => {
-	return state.usersPage.isFollowing;
+export const getFollowingInProgress = (state) => {
+	return state.usersPage.followingInProgress;
 }
 
 // export const getUsers = (state) => {

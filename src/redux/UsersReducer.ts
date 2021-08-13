@@ -19,7 +19,7 @@ type InitialStateType = {
 	usersCountOnPage: number
 	currentPage: number
 	isFetching: boolean,
-	isFollowing: Array<number>
+	followingInProgress: Array<number>
 }
 
 let initialState: InitialStateType = {
@@ -28,7 +28,7 @@ let initialState: InitialStateType = {
 	usersCountOnPage: 12,
 	currentPage: 1,
 	isFetching: false,
-	isFollowing: []
+	followingInProgress: []
 }
 
 const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -66,9 +66,9 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
 		case TOGGLE_IS_FOLLOWING:
 			return {
 				...state,
-				isFollowing: action.isFollowing
-					? [...state.isFollowing, action.userId]
-					: state.isFollowing.filter(id => id !== action.userId)
+				followingInProgress: action.isFollowing
+					? [...state.followingInProgress, action.userId]
+					: state.followingInProgress.filter(id => id !== action.userId)
 			}
 		default: return state;
 	};
