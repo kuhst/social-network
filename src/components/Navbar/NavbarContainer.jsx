@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Navbar from './Navbar';
-import { setUserProfile, getUser } from '../../redux/ProfileReducer';
+import { getUser } from '../../redux/ProfileReducer';
 import { setUserPhoto } from '../../redux/AuthReducer';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
@@ -44,6 +44,6 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-	connect(mapStateToProps, { setUserProfile, getUser, setUserPhoto }),
+	connect(mapStateToProps, { getUser, setUserPhoto }),
 	withRouter
 )(NavbarContainer)

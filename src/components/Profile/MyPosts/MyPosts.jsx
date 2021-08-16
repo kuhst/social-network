@@ -22,7 +22,7 @@ const NewPostReduxForm = reduxForm({
 const MyPosts = (props) => {
 	let postsElement = props.posts.map(p => <Post message={p.message} counts={p.likesCount} key={p.id} />).reverse();
 	let onSubmit = (postText) => {
-		props.addPost(postText)
+		props.actionsProfileReducer.addPost(postText)
 	}
 
 	return (

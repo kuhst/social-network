@@ -3,14 +3,15 @@ import s from './BigButton.module.css';
 
 type PropsType = {
 	value: string
-	disabled: boolean
-	click: () => void
+	disabled?: boolean
+
+	click?: () => void
 }
 
-const BigButton: React.FC<PropsType> = (props) => {
+const BigButton: React.FC<PropsType> = ({ value, click, disabled }) => {
 	return (
 		<div >
-			<button className={s.button + ' ' + (props.value === 'Cancel' ? s.cancel : '')} onClick={props.click} disabled={props.disabled}>{props.value}</button>
+			<button className={s.button + ' ' + (value === 'Cancel' ? s.cancel : '')} onClick={click} disabled={disabled}>{value}</button>
 		</div >
 	)
 }

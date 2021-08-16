@@ -2,14 +2,8 @@ import { stopSubmit } from "redux-form";
 import { ThunkAction } from "redux-thunk";
 import { profileAPI } from "../api/api";
 import { ProfileType } from "../type/type";
-import { setMiProfile } from "./AuthReducer";
-import { AppStateType } from "./ReduxStore";
-
-const ADD_POST = 'profile_ADD_POST';
-const DELETE_POST = 'profile_DELETE_POST';
-const SET_USER_PROFILE = 'profile_SET_USER_PROFILE';
-const SET_USER_STATUS = 'profile_SET_USER_STATUS';
-const SET_FETCHING = 'profile_SET_FETCHING';
+import { actionsAuthReducer } from "./AuthReducer";
+import { AppStateType, InferActionsTypes } from "./ReduxStore";
 
 type PosteType = {
 	id: number
@@ -58,7 +52,7 @@ let initialState: InitialStateType = {
 
 const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
 	switch (action.type) {
-		case ADD_POST:
+		case 'ADD_POST':
 			return {
 				...state,
 				posts: [...state.posts, {
@@ -67,22 +61,22 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
 					likesCount: 0,
 				}]
 			};
-		case DELETE_POST:
+		case 'DELETE_POST':
 			return {
 				...state,
 				posts: state.posts.filter(p => p.id !== action.postId)
 			};
-		case SET_USER_PROFILE:
+		case 'SET_USER_PROFILE':
 			return {
 				...state,
 				userProfile: action.userProfile,
 			};
-		case SET_FETCHING:
+		case 'SET_FETCHING':
 			return {
 				...state,
 				isFetching: action.fetching,
 			};
-		case SET_USER_STATUS:
+		case 'SET_USER_STATUS':
 			return {
 				...state,
 				userStatus: action.status
@@ -91,55 +85,36 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
 	};
 };
 
-type ActionsType = AddPostActionType | DeletePostActionType | SetUserStatusActionType | SetUserProfileActionType | SetFetchingActionType
+type ActionsType = InferActionsTypes<typeof actionsProfileReducer>
 
-type AddPostActionType = {
-	type: typeof ADD_POST
-	postText: string
+export const actionsProfileReducer = {
+	addPost: (postText: string) => ({ type: 'ADD_POST', postText } as const),
+	deletePost: (postId: number) => ({ type: 'DELETE_POST', postId } as const),
+	setUserStatus: (status: string) => ({ type: 'SET_USER_STATUS', status } as const),
+	setUserProfile: (userProfile: ProfileType) => ({ type: 'SET_USER_PROFILE', userProfile } as const),
+	setFetching: (fetching: boolean) => ({ type: 'SET_FETCHING', fetching } as const)
 }
-export const addPost = (postText: string): AddPostActionType => ({ type: ADD_POST, postText });
-type DeletePostActionType = {
-	type: typeof DELETE_POST
-	postId: number
-}
-export const deletePost = (postId: number): DeletePostActionType => ({ type: DELETE_POST, postId });
-type SetUserStatusActionType = {
-	type: typeof SET_USER_STATUS
-	status: string
-}
-export const setUserStatus = (status: string): SetUserStatusActionType => ({ type: SET_USER_STATUS, status });
-type SetUserProfileActionType = {
-	type: typeof SET_USER_PROFILE
-	userProfile: ProfileType
-}
-export const setUserProfile = (userProfile: ProfileType): SetUserProfileActionType => ({ type: SET_USER_PROFILE, userProfile });
-type SetFetchingActionType = {
-	type: typeof SET_FETCHING
-	fetching: boolean
-}
-export const setFetching = (fetching: boolean): SetFetchingActionType => ({ type: SET_FETCHING, fetching });
-
 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
 export const getUser = (userId: number): ThunkType => {
 	return async (dispatch: any) => {
 		const userProfile = await profileAPI.getUserProfile(userId);
-		dispatch(setUserProfile(userProfile));
+		dispatch(actionsProfileReducer.setUserProfile(userProfile));
 
 		const userStatus = await profileAPI.getStatus(userId);
-		dispatch(setUserStatus(userStatus))
+		dispatch(actionsProfileReducer.setUserStatus(userStatus))
 	}
 }
 
 export const setProfileData = (profileData: ProfileType): ThunkType => {
 	return async (dispatch: any, getState: any) => {
 		const userId = getState().auth.userId;
-		dispatch(setFetching(true))
+		dispatch(actionsProfileReducer.setFetching(true))
 		const response = await profileAPI.setProfileData(profileData);
 		if (response.data.resultCode === 0) {
 			const miData = await profileAPI.getUserProfile(userId)
-			dispatch(setMiProfile(miData))
+			dispatch(actionsAuthReducer.setMiProfile(miData))
 		} else {
 			let contactsError = new Map();
 			let otherError = new Map();
@@ -154,7 +129,7 @@ export const setProfileData = (profileData: ProfileType): ThunkType => {
 			});
 			dispatch(stopSubmit('ProfileInfo', { ...Object.fromEntries(otherError), 'contacts': Object.fromEntries(contactsError) }))
 		}
-		dispatch(setFetching(false))
+		dispatch(actionsProfileReducer.setFetching(false))
 	}
 }
 
