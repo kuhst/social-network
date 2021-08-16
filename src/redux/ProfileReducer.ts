@@ -1,7 +1,9 @@
 import { stopSubmit } from "redux-form";
+import { ThunkAction } from "redux-thunk";
 import { profileAPI } from "../api/api";
 import { ProfileType } from "../type/type";
 import { setMiProfile } from "./AuthReducer";
+import { AppStateType } from "./ReduxStore";
 
 const ADD_POST = 'profile_ADD_POST';
 const DELETE_POST = 'profile_DELETE_POST';
@@ -54,7 +56,7 @@ let initialState: InitialStateType = {
 	isFetching: false
 }
 
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
 	switch (action.type) {
 		case ADD_POST:
 			return {
@@ -89,6 +91,8 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
 	};
 };
 
+type ActionsType = AddPostActionType | DeletePostActionType | SetUserStatusActionType | SetUserProfileActionType | SetFetchingActionType
+
 type AddPostActionType = {
 	type: typeof ADD_POST
 	postText: string
@@ -116,9 +120,11 @@ type SetFetchingActionType = {
 export const setFetching = (fetching: boolean): SetFetchingActionType => ({ type: SET_FETCHING, fetching });
 
 
-export const getUser = (userId: number) => {
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+
+export const getUser = (userId: number): ThunkType => {
 	return async (dispatch: any) => {
-		const userProfile = await profileAPI.getUser(userId);
+		const userProfile = await profileAPI.getUserProfile(userId);
 		dispatch(setUserProfile(userProfile));
 
 		const userStatus = await profileAPI.getStatus(userId);
@@ -126,18 +132,18 @@ export const getUser = (userId: number) => {
 	}
 }
 
-export const setProfileInfo = (profileData: ProfileType) => {
+export const setProfileData = (profileData: ProfileType): ThunkType => {
 	return async (dispatch: any, getState: any) => {
 		const userId = getState().auth.userId;
 		dispatch(setFetching(true))
-		const response = await profileAPI.setProfileInfo(profileData);
+		const response = await profileAPI.setProfileData(profileData);
 		if (response.data.resultCode === 0) {
-			const miData = await profileAPI.getUser(userId)
+			const miData = await profileAPI.getUserProfile(userId)
 			dispatch(setMiProfile(miData))
 		} else {
 			let contactsError = new Map();
 			let otherError = new Map();
-			response.data.messages.forEach((element: any) => {
+			response.data.messages.forEach((element: string) => {
 				let key = element.slice((element.indexOf('Contacts->') + 10), (element.length - 1)).toLowerCase();
 				let value = element.slice(0, (element.indexOf('(Contacts->') - 1));
 				if (element.includes('Contacts->')) {

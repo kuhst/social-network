@@ -1,7 +1,13 @@
 import React from 'react';
-import s from './SmallButton.module.css';
+import s from './BigButton.module.css';
 
-const SmallButton = (props) => {
+type PropsType = {
+	value: string
+	disabled: boolean
+	click: () => void
+}
+
+const BigButton: React.FC<PropsType> = (props) => {
 	return (
 		<div >
 			<button className={s.button + ' ' + (props.value === 'Cancel' ? s.cancel : '')} onClick={props.click} disabled={props.disabled}>{props.value}</button>
@@ -9,5 +15,5 @@ const SmallButton = (props) => {
 	)
 }
 
-export default SmallButton;
+export default BigButton;
 

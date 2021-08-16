@@ -1,5 +1,5 @@
 import React from 'react';
-import { setProfileInfo, getUser } from '../../redux/ProfileReducer';
+import { setProfileData, getUser } from '../../redux/ProfileReducer';
 import { connect } from 'react-redux';
 import ProfileInfo from './ProfileInfo';
 import { getMiId, getMiProfile } from '../../redux/authSelector';
@@ -21,4 +21,4 @@ const mapStateToProps = (store) => ({
 	miId: getMiId(store)
 })
 
-export default connect(mapStateToProps, { setProfileInfo, getUser })(ProfileInfoContainer);
+export default connect(mapStateToProps, { setProfileInfo: setProfileData, getUser })(ProfileInfoContainer);

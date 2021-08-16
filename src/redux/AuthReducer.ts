@@ -1,6 +1,9 @@
+import { Dispatch } from "redux";
 import { stopSubmit } from "redux-form";
+import { ThunkAction } from "redux-thunk";
 import { authAPI, profileAPI } from "../api/api";
 import { PhotosType, ProfileType } from "../type/type";
+import { AppStateType } from "./ReduxStore";
 
 const USER_AUTH = 'auth_USER_AUTH';
 const SET_STATUS = 'auth_GET_STATUS';
@@ -10,7 +13,7 @@ const SET_USER_PHOTO_SUCCESS = 'auth_SET_USER_PHOTO_SUCCESS';
 const SET_CAPTCHA_URL = 'auth_SET_CAPTCHA_URL';
 
 type InitialStateType = {
-	userId: string | null
+	userId: number | null
 	login: string | null
 	email: string | null
 	captchaURL: string | null
@@ -51,7 +54,7 @@ let initialState: InitialStateType = {
 	}
 }
 
-const authReducer = (state = initialState, action: any): InitialStateType => {
+const authReducer = (state = initialState, action: ActionsType): InitialStateType => {
 	switch (action.type) {
 		case USER_AUTH:
 			return {
@@ -86,6 +89,10 @@ const authReducer = (state = initialState, action: any): InitialStateType => {
 		default: return state;
 	};
 };
+
+type ActionsType = SetAuthUserDataActionType | SetMiStatusActionType | SetMiProfileActionType |
+	SetLoadingActionType | SetUserPhotoSuccessActionType | SetCaptchaURLsActionType
+
 
 type SetAuthUserDataActionType = {
 	type: typeof USER_AUTH
@@ -124,28 +131,33 @@ type SetCaptchaURLsActionType = {
 }
 export const setCaptchaURL = (captchaURL: string | null): SetCaptchaURLsActionType => ({ type: SET_CAPTCHA_URL, captchaURL });
 
-export const getAuth = () => {
-	return async (dispatch: any) => {
+
+// type DispatchType = Dispatch<ActionsType>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+
+export const getAuth = (): ThunkType => {
+	return async (dispatch) => {
 		dispatch(setCaptchaURL(null))
-		const response = await authAPI.getAuth();
+		const miData = await authAPI.getAuth();
 
-		if (response.resultCode !== 0) return;
-		let { id, login, email } = response.data;
-		dispatch(setAuthUserData(id, login, email, true));
+		if (miData.resultCode === 0) {
+			let { id, login, email } = miData.data;
+			dispatch(setAuthUserData(id, login, email, true));
 
-		const userData = await profileAPI.getUser(id);
+			const userData = await profileAPI.getUserProfile(id);
 
-		dispatch(setMiProfile(userData));
+			dispatch(setMiProfile(userData));
 
-		const userStatus = await profileAPI.getStatus(userData.userId);
+			const userStatus = await profileAPI.getStatus(id);
 
-		dispatch(setMiStatus(userStatus))
+			dispatch(setMiStatus(userStatus))
+		}
 
 	}
 }
 
-export const setStatus = (status: string) => {
-	return async (dispatch: any) => {
+export const setStatus = (status: string): ThunkType => {
+	return async (dispatch) => {
 		dispatch(setLoading(true));
 
 		const response = await profileAPI.setStatus(status);
@@ -156,8 +168,8 @@ export const setStatus = (status: string) => {
 	}
 }
 
-export const logIn = (email: string, password: string, rememberMe: boolean, captchaCode: number) => {
-	return async (dispatch: any) => {
+export const logIn = (email: string, password: string, rememberMe: boolean, captchaCode: string): ThunkType => {
+	return async (dispatch) => {
 		const response = await authAPI.logIn(email, password, rememberMe, captchaCode)
 
 		if (response.resultCode === 0) {
@@ -167,14 +179,14 @@ export const logIn = (email: string, password: string, rememberMe: boolean, capt
 				const captcha = await authAPI.getCaptcha()
 				dispatch(setCaptchaURL(captcha.url))
 			}
-			let action = stopSubmit('login', { _error: response.messages });
-			dispatch(action)
+			// @ts-ignore
+			dispatch(stopSubmit('login', { _error: response.messages }))
 		}
 	}
 }
 
-export const logOut = () => {
-	return async (dispatch: any) => {
+export const logOut = (): ThunkType => {
+	return async (dispatch) => {
 		const response = await authAPI.logOut()
 
 		if (response.resultCode !== 0) return;
@@ -183,12 +195,12 @@ export const logOut = () => {
 	}
 }
 
-export const setUserPhoto = (file: any) => {
-	return async (dispatch: any) => {
+export const setUserPhoto = (file: any): ThunkType => {
+	return async (dispatch) => {
 		const response = await profileAPI.setPhoto(file);
 
 		if (response.data.resultCode === 0) return;
-		dispatch(setUserPhotoSuccess(response.data.data.photos));
+		dispatch(setUserPhotoSuccess(response.data.data));
 
 	}
 }
