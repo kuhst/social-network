@@ -4,9 +4,12 @@ import style from '../../Style.module.css'
 import DialogItem from './DialogItem/DialogItem';
 import MessageItem from './Message/MessageItem';
 import MessageAddContainer from './Message/MessageAddContainer';
+import { InitialStateType } from '../../redux/DialogsReducer';
 
 
-const Dialogs = (props) => {
+type PropsType = InitialStateType
+
+const Dialogs: React.FC<PropsType> = (props) => {
 	let dialogsElements = props.dialogsData.map(d => <DialogItem
 		name={d.name}
 		id={d.id}

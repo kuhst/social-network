@@ -2,10 +2,10 @@ import React from "react";
 import { Suspense } from "react";
 
 
-const withSuspense = (Component) => {
-	return (props) => {
+function withSuspense<WSP>(Component: React.ComponentType<WSP>) {
+	return (props: WSP) => {
 		return (
-			<Suspense fallback={<div>Загрузка...</div>}>
+			<Suspense fallback={<div>Loading...</div>}>
 				<Component {...props} />
 			</Suspense>
 		)

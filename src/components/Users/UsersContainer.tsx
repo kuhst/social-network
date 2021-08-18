@@ -60,7 +60,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 	}
 }
 
-const UsersContainer = connect<MapStatePropsType, MapDispatchToProps, void, AppStateType>(
+const UsersContainer = connect(
 	mapStateToProps, { follow, unfollow, responseUsers }
 )(UsersAPIComponent);
 

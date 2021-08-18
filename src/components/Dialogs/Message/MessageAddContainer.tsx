@@ -1,9 +1,10 @@
 import { addMessage } from '../../../redux/DialogsReducer';
 import MessageAdd from './MessageAdd';
 import { connect } from 'react-redux';
+import { AppStateType } from '../../../redux/ReduxStore';
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
 	return {
 		dialogsData: state.dialogsPage,
 	}

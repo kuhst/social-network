@@ -59,6 +59,6 @@ type MessageType = {
 	message: string
 	from: 'mi' | 'friend'
 }
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof actionsDialogReducer>
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>

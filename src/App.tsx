@@ -11,6 +11,7 @@ import { initializeApp } from './redux/AppReducer';
 import Preloader from './components/elements/Preloader';
 import { compose } from 'redux';
 import withSuspense from './hoc/withSuspense';
+import { AppStateType } from './redux/ReduxStore';
 
 const Login = React.lazy(() => import('./components/Login/Login'));
 const ProfileInfoContainer = React.lazy(() => import('./components/ProfileInfo/ProfileInfoContainer'));
@@ -20,7 +21,16 @@ const Music = React.lazy(() => import('./components/Music/Music'));
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
 
-class App extends React.Component {
+type MapStatePropsType = ReturnType<typeof mapStateToProps>
+type MapDispatchPropsType = {
+  initializeApp: () => void
+}
+
+const SuspendedDialogs = withSuspense(DialogsContainer)
+const SuspendedUsers = withSuspense(UsersContainer)
+const SuspendedLogin = withSuspense(Login)
+
+class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
   componentDidMount = () => {
     this.props.initializeApp()
   }
@@ -29,7 +39,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <Route path='/login' render={withSuspense(Login)} />
+        <Route path='/login' render={() => <SuspendedLogin />} />
         <div>
           <HeaderContainer />
           <div className='app-wrapper'>
@@ -37,12 +47,12 @@ class App extends React.Component {
             <div className='app-wrapper-content'>
               <Switch>
                 <Route exact path='/' render={() => <Redirect to='/profile' />} />
-                <Route path='/dialogs' render={withSuspense(DialogsContainer)} />
+                <Route path='/dialogs' render={() => <SuspendedDialogs />} />
                 <Route path='/profile/settings' render={withSuspense(ProfileInfoContainer)} />
                 <Route path='/profile/:userId?' render={() => <ProfileContainer />} />
                 <Route path='/news' render={withSuspense(News)} />
                 <Route path='/music' render={withSuspense(Music)} />
-                <Route path='/users' render={withSuspense(UsersContainer)} />
+                <Route path='/users' render={() => <SuspendedUsers />} />
                 <Route path='/settings' render={withSuspense(Settings)} />
               </Switch>
             </div>
@@ -57,7 +67,7 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
 })
 
