@@ -1,30 +1,18 @@
-import { Dispatch } from "redux";
 import { stopSubmit } from "redux-form";
-import { ThunkAction } from "redux-thunk";
-import { authAPI, profileAPI } from "../api/api";
+import { authAPI } from "../api/authAPI";
+import { profileAPI } from "../api/profileAPI";
 import { PhotosType, ProfileType } from "../type/type";
-import { AppStateType, InferActionsTypes } from "./ReduxStore";
+import { BaseThunkType, InferActionsTypes } from "./ReduxStore";
 
 
-type InitialStateType = {
-	userId: number | null
-	login: string | null
-	email: string | null
-	captchaURL: string | null
-	isAuth: boolean | false
-	isLoading: boolean | false
-	status: string | null
-	profile: ProfileType
-}
-
-let initialState: InitialStateType = {
-	userId: null,
-	login: null,
-	email: null,
-	captchaURL: null,
+let initialState = {
+	userId: null as number | null,
+	login: null as string | null,
+	email: null as string | null,
+	captchaURL: null as string | null,
 	isAuth: false,
 	isLoading: false,
-	status: null,
+	status: null as string | null,
 	profile: {
 		aboutMe: null,
 		lookingForAJob: null,
@@ -45,7 +33,7 @@ let initialState: InitialStateType = {
 			github: null,
 			mainLink: null
 		},
-	}
+	} as ProfileType
 }
 
 const authReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -84,21 +72,17 @@ const authReducer = (state = initialState, action: ActionsType): InitialStateTyp
 	};
 };
 
-type ActionsType = InferActionsTypes<typeof actionsAuthReducer>
-
 
 export const actionsAuthReducer = {
-	setAuthUserData: (userId: number | null, login: string | null, email: string | null, isAuth: boolean) =>
-		({ type: 'USER_AUTH', data: { userId, login, email, isAuth } } as const),
+	setAuthUserData: (userId: number | null, login: string | null, email: string | null, isAuth: boolean) => ({
+		type: 'USER_AUTH', data: { userId, login, email, isAuth }
+	} as const),
 	setMiStatus: (status: string) => ({ type: 'SET_STATUS', status } as const),
 	setMiProfile: (profile: ProfileType) => ({ type: 'USER_PROFILE', profile } as const),
 	setLoading: (isLoading: boolean) => ({ type: 'SET_LOADING', isLoading } as const),
 	setUserPhotoSuccess: (photos: PhotosType) => ({ type: 'SET_USER_PHOTO_SUCCESS', photos } as const),
 	setCaptchaURL: (captchaURL: string | null) => ({ type: 'SET_CAPTCHA_URL', captchaURL } as const),
 }
-
-// type DispatchType = Dispatch<ActionsType>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
 export const getAuth = (): ThunkType => {
 	return async (dispatch) => {
@@ -128,7 +112,7 @@ export const setStatus = (status: string): ThunkType => {
 		const response = await profileAPI.setStatus(status);
 
 		dispatch(actionsAuthReducer.setLoading(false))
-		if (response.data.resultCode !== 0) return;
+		if (response.resultCode !== 0) return;
 		dispatch(actionsAuthReducer.setMiStatus(status))
 	}
 }
@@ -164,11 +148,17 @@ export const setUserPhoto = (file: any): ThunkType => {
 	return async (dispatch) => {
 		const response = await profileAPI.setPhoto(file);
 
-		if (response.data.resultCode === 0) return;
-		dispatch(actionsAuthReducer.setUserPhotoSuccess(response.data.data));
+		if (response.resultCode === 0) {
+			dispatch(actionsAuthReducer.setUserPhotoSuccess(response.data.photos));
+		}
 
 	}
 }
 
 
 export default authReducer;
+
+
+type InitialStateType = typeof initialState;
+type ActionsType = InferActionsTypes<typeof actionsAuthReducer>
+type ThunkType = BaseThunkType<ActionsType>

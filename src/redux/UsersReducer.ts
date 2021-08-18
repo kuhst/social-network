@@ -1,27 +1,16 @@
-import { AppStateType, InferActionsTypes } from './ReduxStore';
+import { BaseThunkType, InferActionsTypes } from './ReduxStore';
 import { Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
-import { usersAPI } from "../api/api";
+import { usersAPI } from "../api/usersAPI";
 import { UserType } from "../type/type";
 import { objectsHelper } from "../utils/objectsHelper";
 
-
-type InitialStateType = {
-	users: Array<UserType>
-	usersCount: number
-	usersCountOnPage: number
-	currentPage: number
-	isFetching: boolean,
-	followingInProgress: Array<number>
-}
-
-let initialState: InitialStateType = {
-	users: [],
+let initialState = {
+	users: [] as Array<UserType>,
 	usersCount: 0,
 	usersCountOnPage: 12,
 	currentPage: 1,
 	isFetching: false,
-	followingInProgress: []
+	followingInProgress: [] as Array<number>
 }
 
 const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -67,7 +56,6 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
 	};
 };
 
-type ActionsType = InferActionsTypes<typeof actionsUsersReducer>
 
 const actionsUsersReducer = {
 	followSuccess: (userId: number) => ({ type: 'FOLLOW', userId } as const),
@@ -78,9 +66,6 @@ const actionsUsersReducer = {
 	setFetching: (isFetching: boolean) => ({ type: 'SET_FETCHING', isFetching } as const),
 	toggleIsFollowing: (isFollowing: boolean, userId: number) => ({ type: 'TOGGLE_IS_FOLLOWING', isFollowing, userId } as const),
 }
-
-type DispatchType = Dispatch<ActionsType>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
 export const responseUsers = (usersCountOnPage: number, currentPage: number): ThunkType => {
 	return async (dispatch) => {
@@ -120,3 +105,9 @@ export const follow = (userID: number): ThunkType => {
 };
 
 export default usersReducer;
+
+
+type InitialStateType = typeof initialState;
+type ActionsType = InferActionsTypes<typeof actionsUsersReducer>
+type DispatchType = Dispatch<ActionsType>
+type ThunkType = BaseThunkType<ActionsType>
