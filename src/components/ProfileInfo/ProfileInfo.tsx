@@ -1,26 +1,42 @@
 import React from 'react';
-import { reduxForm } from 'redux-form';
+import { InjectedFormProps, reduxForm } from 'redux-form';
 import style from '../../Style.module.css';
 import BigButton from '../elements/BigButton';
 import s from './ProfileInfo.module.css';
 import { createField, Input, Textarea } from '../elements/FormsControls';
 import Preloader from '../elements/Preloader';
 import { maxLength, required } from '../../utils/validators';
+import { PhotosType, ProfileType } from '../../type/type';
 
 const maxLength1000 = maxLength(1000);
 const maxLength30 = maxLength(30);
 
 
-const ProfileInfoForm = ({ handleSubmit, error, isFetching }) => {
+type ProfileInfoFormOunProps = {
+	isFetching: boolean
+}
+
+type ProfileInfoType = {
+	isFetching: boolean
+	profile: ProfileType
+
+	setProfileInfo: (profile: ProfileInfoFormValuesType) => void
+}
+export type ProfileInfoFormValuesType = ProfileType
+
+type ProfileInfoFormValuesTypeKeys = keyof ProfileInfoFormValuesType
+
+
+const ProfileInfoForm: React.FC<InjectedFormProps<ProfileInfoFormValuesType, ProfileInfoFormOunProps> & ProfileInfoFormOunProps> = ({ handleSubmit, error, isFetching }) => {
 	return (
 		<form className={s.form} onSubmit={handleSubmit}>
 			<div className={s.profile}>
-				{createField('', 'fullName', [required, maxLength30], Input, 'Full name', {})}
-				{createField('', 'aboutMe', [required, maxLength1000], Textarea, 'About me', { rows: 1 })}
+				{createField<ProfileInfoFormValuesTypeKeys>('', 'fullName', [required, maxLength30], Input, 'Full name', {})}
+				{createField<ProfileInfoFormValuesTypeKeys>('', 'aboutMe', [required, maxLength1000], Textarea, 'About me', { rows: 1 })}
 			</div>
 			<div className={s.job}>
-				{createField('', 'lookingForAJob', [], Input, 'Looking for a job ', { type: 'checkbox' })}
-				{createField('', 'lookingForAJobDescription', [required, maxLength1000], Textarea, 'Looking for a job description', { rows: 1 })}
+				{createField<ProfileInfoFormValuesTypeKeys>('', 'lookingForAJob', [], Input, 'Looking for a job ', { type: 'checkbox' })}
+				{createField<ProfileInfoFormValuesTypeKeys>('', 'lookingForAJobDescription', [required, maxLength1000], Textarea, 'Looking for a job description', { rows: 1 })}
 			</div>
 			<div className={s.contacts}>
 				{createField('', 'contacts.github', [], Input, 'GitHub', {})}
@@ -45,12 +61,12 @@ const ProfileInfoForm = ({ handleSubmit, error, isFetching }) => {
 
 
 
-const ProfileControlReduxForm = reduxForm({
+const ProfileControlReduxForm = reduxForm<ProfileInfoFormValuesType, ProfileInfoFormOunProps>({
 	form: 'ProfileInfo'
 })(ProfileInfoForm)
 
-class ProfileInfo extends React.Component {
-	onSubmit = (formData) => {
+class ProfileInfo extends React.Component<ProfileInfoType> {
+	onSubmit = (formData: ProfileInfoFormValuesType) => {
 		this.props.setProfileInfo(formData);
 	}
 

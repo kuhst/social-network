@@ -3,7 +3,7 @@ import MyPostsContainer from './MyPosts/MyPostsContainer';
 import s from './Profile.module.css'
 
 
-const Profile = (props) => {
+const Profile = () => {
 	return (
 		<div className={s.content}>
 			<MyPostsContainer />

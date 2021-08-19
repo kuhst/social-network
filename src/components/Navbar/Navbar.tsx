@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import s from './Navbar.module.css';
 import style from '../../Style.module.css';
 import userPhoto from '../../assets/images/user.jpg';
 import MenuItem from './MenuItem';
 import iconSliders from '../../assets/images/sliders.svg'
 
-class Navbar extends React.Component {
-	onPhotoChange = (event) => {
-		if (event.target.files.length) {
+type PropsType = {
+	userPhoto: string | null
+	status: string | null
+	isMiProfile: boolean
+	isAuth: boolean
+	userName: string | null
+	setUserPhoto: (file: File) => void
+}
+
+class Navbar extends React.Component<PropsType> {
+	onPhotoChange = (event: ChangeEvent<HTMLInputElement>) => {
+		if (event.target.files && event.target.files.length) {
 			this.props.setUserPhoto(event.target.files[0]);
 		}
 	};

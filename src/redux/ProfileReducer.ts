@@ -123,7 +123,7 @@ export const setProfileData = (profileData: ProfileType): ThunkType => {
 export default profileReducer;
 
 
-type PosteType = {
+export type PosteType = {
 	id: number
 	message: string
 	likesCount: number

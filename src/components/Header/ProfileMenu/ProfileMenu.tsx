@@ -1,10 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import style from '../../../Style.module.css'
 import s from './ProfileMenu.module.css'
 import { NavLink } from 'react-router-dom';
 
+type PropsType = {
+	status: string | null
+	logOut: () => void
+	setStatus: (status: string) => void
+}
 
-const ProfileMenu = React.memo((props) => {
+const ProfileMenu: React.FC<PropsType> = React.memo((props) => {
 
 	const [status, setStatus] = useState(props.status);
 
@@ -13,10 +18,10 @@ const ProfileMenu = React.memo((props) => {
 	}, [props.status]);
 
 	const applyStatusChange = () => {
-		props.setStatus(status);
+		props.setStatus(status as string);
 	};
 
-	const onStatusChange = (e) => {
+	const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setStatus(e.currentTarget.value)
 	}
 
@@ -40,7 +45,7 @@ const ProfileMenu = React.memo((props) => {
 					CHANGE STATUS
 				</div>
 				<div className={s.statusChange}>
-					<input onChange={onStatusChange} autoFocus={true} placeholder="Type new post..." value={status} />
+					<input onChange={onStatusChange} autoFocus={true} placeholder="Type new post..." value={status ? status : undefined} />
 					<button onClick={applyStatusChange}>Sent</button>
 				</div>
 			</div>

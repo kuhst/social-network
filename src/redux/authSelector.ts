@@ -24,6 +24,10 @@ export const getMiProfile = (state: AppStateType) => {
 	return state.auth.profile;
 }
 
+export const getMiFoolName = (state: AppStateType) => {
+	return state.auth.profile.fullName;
+}
+
 export const getMiPhotoSmall = (state: AppStateType) => {
 	return state.auth.profile.photos.small;
 }

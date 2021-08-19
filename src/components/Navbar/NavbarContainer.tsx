@@ -7,13 +7,21 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { getUserId, getUserName, getUserSmallPhoto, getUserStatus } from '../../redux/profileSelector';
 import { getIsAuth, getMiId, getMiStatus } from '../../redux/authSelector';
+import { AppStateType } from '../../redux/ReduxStore';
 
-class NavbarContainer extends React.Component {
+type MapStateToProps = ReturnType<typeof mapStateToProps>
+type MapDispatchToProps = {
+	getUser: (userId: number | null) => void
+	setUserPhoto: (file: File) => void
+}
+
+
+class NavbarContainer extends React.Component<MapStateToProps & MapDispatchToProps> {
 	isMiProfile = () => {
 		if (this.props.userId === this.props.miId) return true;
 		return false;
 	}
-	componentDidUpdate = (prevProps) => {
+	componentDidUpdate = () => {
 		if (this.isMiProfile()) {
 			if (this.props.status !== this.props.miStatus) {
 				this.props.getUser(this.props.miId)
@@ -31,7 +39,7 @@ class NavbarContainer extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
 	return {
 		userName: getUserName(state),
 		userPhoto: getUserSmallPhoto(state),
@@ -43,7 +51,7 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default compose(
+export default compose<React.ComponentType>(
 	connect(mapStateToProps, { getUser, setUserPhoto }),
 	withRouter
 )(NavbarContainer)

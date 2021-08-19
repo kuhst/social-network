@@ -29,6 +29,7 @@ type MapDispatchPropsType = {
 const SuspendedDialogs = withSuspense(DialogsContainer)
 const SuspendedUsers = withSuspense(UsersContainer)
 const SuspendedLogin = withSuspense(Login)
+const SuspendedProfileInfo = withSuspense(ProfileInfoContainer)
 
 class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
   componentDidMount = () => {
@@ -48,7 +49,7 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
               <Switch>
                 <Route exact path='/' render={() => <Redirect to='/profile' />} />
                 <Route path='/dialogs' render={() => <SuspendedDialogs />} />
-                <Route path='/profile/settings' render={withSuspense(ProfileInfoContainer)} />
+                <Route path='/profile/settings' render={() => <SuspendedProfileInfo />} />
                 <Route path='/profile/:userId?' render={() => <ProfileContainer />} />
                 <Route path='/news' render={withSuspense(News)} />
                 <Route path='/music' render={withSuspense(Music)} />
@@ -71,7 +72,7 @@ const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
 })
 
-export default compose(
+export default compose<React.ComponentType>(
   withRouter,
   connect(mapStateToProps, { initializeApp })
 )(App);

@@ -17,6 +17,26 @@ type LoginFormOunProps = {
 	captchaURL: string | null
 }
 
+type MapStateToPropsType = {
+	captchaURL: string | null
+	isAuth: boolean
+}
+
+type MapDispatchToProps = {
+	logIn: (email: string, password: string, rememberMe: boolean, captchaCode: string) => void
+}
+
+type LoginType = MapStateToPropsType & MapDispatchToProps
+
+type LoginFormValuesType = {
+	email: string
+	password: string
+	rememberMe: boolean
+	captcha: string
+}
+
+type LoginFormValuesTypeKeys = keyof LoginFormValuesType
+
 const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOunProps> & LoginFormOunProps> = ({ handleSubmit, error, captchaURL }) => {
 	return (
 		<form onSubmit={handleSubmit} className={s.inputBlock}>
@@ -43,27 +63,8 @@ const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOunProps>({
 	form: 'login'
 })(LoginForm)
 
-type MapStateToPropsType = {
-	captchaURL: string | null
-	isAuth: boolean
-}
 
-type MapDispatchToProps = {
-	logIn: (email: string, password: string, rememberMe: boolean, captchaCode: string) => void
-}
-
-type LoginType = MapStateToPropsType & MapDispatchToProps
-
-type LoginFormValuesType = {
-	email: string
-	password: string
-	rememberMe: boolean
-	captcha: string
-}
-
-type LoginFormValuesTypeKeys = keyof LoginFormValuesType
-
-class Login extends React.Component<MapStateToPropsType & MapDispatchToProps> {
+class Login extends React.Component<LoginType> {
 	onSubmit = (formData: LoginFormValuesType) => {
 		this.props.logIn(formData.email, formData.password, formData.rememberMe, formData.captcha);
 	}

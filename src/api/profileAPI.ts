@@ -22,7 +22,7 @@ export const profileAPI = {
 		return instanceAxios.put<APIResponseType>('/profile', profileData)
 			.then(response => response.data)
 	},
-	setPhoto(filePhoto: any) {
+	setPhoto(filePhoto: File) {
 		const formData = new FormData();
 		formData.append("image", filePhoto);
 		return instanceAxios.put<APIResponseType<SetPhotoResponseData>>('/profile/photo', formData, {

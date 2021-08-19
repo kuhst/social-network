@@ -2,7 +2,12 @@ import React from 'react';
 import s from './Navbar.module.css';
 import { NavLink } from 'react-router-dom';
 
-export const MenuItem = (props) => {
+type PropsType = {
+	link: string
+	className: string
+}
+
+export const MenuItem: React.FC<PropsType> = (props) => {
 	return (
 		<div className={s.item}>
 			<NavLink to={props.link} activeClassName={s.activeLink} className={props.className}>

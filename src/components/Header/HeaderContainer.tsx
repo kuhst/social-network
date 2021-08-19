@@ -2,13 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Header from './Header';
 import { setStatus, logOut } from '../../redux/AuthReducer';
-import { getIsAuth, getLoadingStatus, getMiId, getMiLogin, getMiPhotoSmall, getMiStatus } from '../../redux/authSelector';
+import { getIsAuth, getLoadingStatus, getMiFoolName, getMiId, getMiPhotoSmall, getMiStatus } from '../../redux/authSelector';
+import { AppStateType } from '../../redux/ReduxStore';
 
-
-class HeaderContainer extends React.Component {
+type MapStateToPropsType = ReturnType<typeof mapStateToProps>
+type MapDispatchToPropsType = {
+	setStatus: (status: string) => void
+	logOut: () => void
+}
+class HeaderContainer extends React.Component<MapStateToPropsType & MapDispatchToPropsType> {
 	render = () => {
 		return (
-			<Header login={this.props.login}
+			<Header miName={this.props.miName}
 				status={this.props.status}
 				logOut={this.props.logOut}
 				isAuth={this.props.isAuth}
@@ -19,10 +24,10 @@ class HeaderContainer extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
 	isAuth: getIsAuth(state),
 	userId: getMiId(state),
-	login: getMiLogin(state),
+	miName: getMiFoolName(state),
 	status: getMiStatus(state),
 	photo: getMiPhotoSmall(state),
 	loading: getLoadingStatus(state),

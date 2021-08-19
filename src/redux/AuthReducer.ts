@@ -144,7 +144,7 @@ export const logOut = (): ThunkType => {
 	}
 }
 
-export const setUserPhoto = (file: any): ThunkType => {
+export const setUserPhoto = (file: File): ThunkType => {
 	return async (dispatch) => {
 		const response = await profileAPI.setPhoto(file);
 

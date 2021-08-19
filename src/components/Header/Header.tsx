@@ -7,7 +7,17 @@ import preloaderImage from '../../assets/images/preloaderPoint.svg';
 import ProfileMenu from './ProfileMenu/ProfileMenu';
 
 
-const Header = (props) => {
+type PropsType = {
+	status: string | null
+	photo: string | null
+	miName: string | null
+	loading: boolean
+	isAuth: boolean
+	setStatus: (status: string) => void
+	logOut: () => void
+}
+
+const Header: React.FC<PropsType> = (props) => {
 
 	let preloader = (
 		<div className={s.preloader}>
@@ -31,17 +41,14 @@ const Header = (props) => {
 					</div>
 					<div className={s.controlBlock}>
 						<div className={s.name}>
-							{props.login}
+							{props.miName}
 						</div>
 						<div className={s.status}>
 							{props.loading ? preloader : statusBlock}
 						</div>
 					</div>
-					{/* <div className={s.arrow}>
-						>
-					</div> */}
 					<div className={s.menu}>
-						<ProfileMenu status={props.status} setStatus={props.setStatus} loading={props.loading} logOut={props.logOut} />
+						<ProfileMenu status={props.status} setStatus={props.setStatus} logOut={props.logOut} />
 					</div>
 				</div>
 
