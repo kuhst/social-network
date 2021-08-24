@@ -1,3 +1,4 @@
+import { FilterType } from './../redux/UsersReducer';
 import { PhotosType } from "../type/type";
 import { instanceAxios, APIResponseType } from "./api";
 
@@ -15,8 +16,8 @@ type UsersResponseType = {
 }
 
 export const usersAPI = {
-	getUsers(usersCountOnPage = 9, currentPage = 1) {
-		return instanceAxios.get<UsersResponseType>(`/users?count=${usersCountOnPage}&page=${currentPage}`)
+	getUsers(usersCountOnPage = 9, currentPage = 1, filter: FilterType = {term: '', friend: ''}) {
+		return instanceAxios.get<UsersResponseType>(`/users?count=${usersCountOnPage}&page=${currentPage}&term=${filter.term}&friend=${filter.friend}`)
 			.then(response => response.data)
 	},
 	follow(id: number) {

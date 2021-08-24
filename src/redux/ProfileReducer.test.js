@@ -1,4 +1,4 @@
-import profileReducer, { addPost, deletePost } from "./ProfileReducer";
+import profileReducer, { actionsProfileReducer, addPost, deletePost } from "./ProfileReducer";
 
 let state = null;
 beforeEach(() => {
@@ -18,7 +18,7 @@ afterEach(() => {
 
 test('text of add post should be correct', () => {
 	// 1. Test data
-	let action = addPost('my test');
+	let action = actionsProfileReducer.addPost('my test');
 
 	// 2. action creator
 	let newState = profileReducer(state, action)
@@ -29,7 +29,7 @@ test('text of add post should be correct', () => {
 
 test('length of post should be incremented', () => {
 	// 1. Test data
-	let action = addPost('my test');
+	let action = actionsProfileReducer.addPost('my test');
 
 	// 2. action creator
 	let newState2 = profileReducer(state, action)
@@ -40,7 +40,7 @@ test('length of post should be incremented', () => {
 
 test('after deleting length should be decremented', () => {
 	// 1. Test data
-	let action = deletePost(3);
+	let action = actionsProfileReducer.deletePost(3);
 
 	// 2. action creator
 	let newState = profileReducer(state, action)

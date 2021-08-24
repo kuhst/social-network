@@ -1,6 +1,7 @@
 .container {
 	padding  : 20px;
 	font-size: 14px;
+	max-height: min-content;
 }
 
 .container :first-child {
