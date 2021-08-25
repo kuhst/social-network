@@ -3,35 +3,19 @@ import BigButton from "../elements/BigButton";
 import s from "./Login.module.css";
 import style from "../../Style.module.css";
 import { InjectedFormProps, reduxForm } from "redux-form";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../../redux/AuthReducer";
 import Element, { createField } from "../elements/FormsControls";
 import { required } from "../../utils/validators";
 import { Redirect } from "react-router-dom";
 import { getCaptchaURL, getIsAuth } from "../../redux/authSelector";
-import { AppStateType } from "../../redux/ReduxStore";
+import { useEffect } from "react";
 
 const Input = Element("input");
 
 type LoginFormOunProps = {
   captchaURL: string | null;
 };
-
-type MapStateToPropsType = {
-  captchaURL: string | null;
-  isAuth: boolean;
-};
-
-type MapDispatchToProps = {
-  logIn: (
-    email: string,
-    password: string,
-    rememberMe: boolean,
-    captchaCode: string
-  ) => void;
-};
-
-type LoginType = MapStateToPropsType & MapDispatchToProps;
 
 type LoginFormValuesType = {
   email: string;
@@ -95,47 +79,37 @@ const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOunProps>({
   form: "login",
 })(LoginForm);
 
-class Login extends React.Component<LoginType> {
-  onSubmit = (formData: LoginFormValuesType) => {
-    this.props.logIn(
-      formData.email,
-      formData.password,
-      formData.rememberMe,
-      formData.captcha
-    );
-  };
-
-  componentDidMount = () => {
+export const LoginPage = () => {
+  useEffect(() => {
     document.body.style.overflow = "hidden";
-  };
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  });
 
-  componentWillUnmount = () => {
-    document.body.style.overflow = "unset";
-  };
+  const isAuth = useSelector(getIsAuth);
+  const captchaURL = useSelector(getCaptchaURL);
 
-  pageClose = () => {
-    // console.log("redirect");
-  };
+  const dispatch = useDispatch();
 
-  render = () => {
-    if (this.props.isAuth) return <Redirect to={"/profile"} />;
-    return (
-      <div className={s.loginBackground}>
-        <div className={style.block + " " + s.container}>
-          <div className={style.blockName}>Sign in</div>
-          <LoginReduxForm
-            onSubmit={this.onSubmit}
-            captchaURL={this.props.captchaURL}
-          />
-        </div>
-      </div>
+  const onSubmit = (formData: LoginFormValuesType) => {
+    dispatch(
+      logIn(
+        formData.email,
+        formData.password,
+        formData.rememberMe,
+        formData.captcha
+      )
     );
   };
-}
 
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
-  isAuth: getIsAuth(state),
-  captchaURL: getCaptchaURL(state),
-});
-
-export default connect(mapStateToProps, { logIn })(Login);
+  if (isAuth) return <Redirect to={"/profile"} />;
+  return (
+    <div className={s.loginBackground}>
+      <div className={style.block + " " + s.container}>
+        <div className={style.blockName}>Sign in</div>
+        <LoginReduxForm onSubmit={onSubmit} captchaURL={captchaURL} />
+      </div>
+    </div>
+  );
+};

@@ -16,8 +16,8 @@ type UsersResponseType = {
 }
 
 export const usersAPI = {
-	getUsers(usersCountOnPage = 9, currentPage = 1, filter: FilterType = {term: '', friend: ''}) {
-		return instanceAxios.get<UsersResponseType>(`/users?count=${usersCountOnPage}&page=${currentPage}&term=${filter.term}&friend=${filter.friend}`)
+	getUsers(usersCountOnPage = 9, currentPage = 1, filter: FilterType = {term: '', friend: null}) {
+		return instanceAxios.get<UsersResponseType>(`/users?count=${usersCountOnPage}&page=${currentPage}&term=${filter.term}&friend=${filter.friend === null ? '' : filter.friend}`)
 			.then(response => response.data)
 	},
 	follow(id: number) {

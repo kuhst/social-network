@@ -14,7 +14,7 @@ let initialState = {
 	followingInProgress: [] as Array<number>,
 	filter: {
 		term: '',
-		friend: '' as '' | 'true' | 'false'
+		friend: null as null | boolean
 	}
 }
 
@@ -83,12 +83,13 @@ export const responseUsers = (usersCountOnPage: number, currentPage: number, fil
 		dispatch(actionsUsersReducer.setFetching(true));
 		dispatch(actionsUsersReducer.setPageToCurrent(currentPage));
 		dispatch(actionsUsersReducer.setFilter(filter));
-
+		console.log('before')
 		const response = await usersAPI.getUsers(usersCountOnPage, currentPage, filter);
+		console.log('after')
 
-		dispatch(actionsUsersReducer.setFetching(false));
 		dispatch(actionsUsersReducer.setUsers(response.items));
 		dispatch(actionsUsersReducer.setUsersCount(response.totalCount));
+		dispatch(actionsUsersReducer.setFetching(false));
 	}
 };
 

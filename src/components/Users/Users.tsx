@@ -1,44 +1,102 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import s from "./Users.module.css";
 import User from "./User";
 import Paginator from "../elements/Paginator";
-import { UserType } from "../../type/type";
 import UsersSearchForm from "./UsersSearchForm";
-import { FilterType } from "../../redux/UsersReducer";
+import {
+  FilterType,
+  follow,
+  responseUsers,
+  unfollow,
+} from "../../redux/UsersReducer";
+import {
+  getCurrentPage,
+  getFollowingInProgress,
+  getUserFilter,
+  getUsers,
+  getUsersCount,
+  getUsersCountOnPage,
+} from "../../redux/usersSelector";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-type PropsType = {
-  usersCount: number;
-  usersCountOnPage: number;
-  currentPage: number;
-  users: Array<UserType>;
-  followingInProgress: Array<number>;
+type PropsType = {};
 
-  unfollow: (userId: number) => void;
-  follow: (userId: number) => void;
-  onPageChanged: (pageNumber: number) => void;
-  onFilterChanged: (filter: FilterType) => void;
-};
+type QueryParamsType = { term?: string; page?: string; friend?: string };
 
-const Users: React.FC<PropsType> = ({
-  usersCount,
-  usersCountOnPage,
-  currentPage,
-  users,
-  onPageChanged,
-  onFilterChanged,
-  ...props
-}) => {
+const Users: React.FC<PropsType> = React.memo((props) => {
+  const users = useSelector(getUsers);
+  const usersCount = useSelector(getUsersCount);
+  const usersCountOnPage = useSelector(getUsersCountOnPage);
+  const currentPage = useSelector(getCurrentPage);
+  const followingInProgress = useSelector(getFollowingInProgress);
+  const filter = useSelector(getUserFilter);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const querystring = require("querystring");
+
+  useEffect(() => {
+    const parsed = querystring.parse(
+      history.location.search.substr(1)
+    ) as QueryParamsType;
+
+    let actualPage = currentPage;
+    let actualFilter = filter;
+    if (parsed.page) actualPage = +parsed.page;
+    if (parsed.term) actualFilter = { ...actualFilter, term: parsed.term };
+    if (parsed.friend)
+      actualFilter = {
+        ...actualFilter,
+        friend:
+          parsed.friend === "null"
+            ? null
+            : parsed.friend === "true"
+            ? true
+            : false,
+      };
+
+    console.log(parsed);
+    dispatch(responseUsers(usersCountOnPage, actualPage, actualFilter));
+  }, []);
+
+  useEffect(() => {
+    const query: QueryParamsType = {};
+
+    if (filter.term) query.term = filter.term;
+    if (filter.friend !== null) query.friend = String(filter.friend);
+    if (currentPage !== 1) query.page = String(currentPage);
+
+    history.push({
+      pathname: "/users",
+      search: querystring.stringify(query),
+    });
+  }, [filter, currentPage]);
+
+  const onPageChanged = (pageNumber: number) => {
+    dispatch(responseUsers(usersCountOnPage, pageNumber, filter));
+  };
+
+  const onFilterChanged = (filter: FilterType) => {
+    dispatch(responseUsers(usersCountOnPage, 1, filter));
+  };
+
+  const followUser = (userId: number) => {
+    dispatch(follow(userId));
+  };
+
+  const unfollowUser = (userId: number) => {
+    dispatch(unfollow(userId));
+  };
+
   let usersItems = users.map((u) => (
     <User
       key={u.id}
-      id={u.id}
-      name={u.name}
-      photo={u.photos.large}
-      status={u.status}
-      followed={u.followed}
-      followingInProgress={props.followingInProgress}
-      unfollow={props.unfollow}
-      follow={props.follow}
+      user={u}
+      followingInProgress={followingInProgress}
+      unfollow={unfollowUser}
+      follow={followUser}
     />
   ));
 
@@ -56,6 +114,6 @@ const Users: React.FC<PropsType> = ({
       <div className={s.usersPage}>{usersItems}</div>
     </div>
   );
-};
+});
 
 export default Users;
