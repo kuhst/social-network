@@ -45,6 +45,11 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
 				...state,
 				usersCount: action.usersCount,
 			}
+		case 'SET_USERS_COUNT_ON_PAGE':
+			return {
+				...state,
+				usersCountOnPage: action.usersCountOnPage,
+			}
 		case 'SET_FILTER':
 			return {
 				...state,
@@ -74,6 +79,7 @@ export const actionsUsersReducer = {
 	setFilter: (filter: FilterType) => ({ type: 'SET_FILTER', filter } as const),
 	setPageToCurrent: (pageNumber: number) => ({ type: 'SET_PAGE_NUMBER', pageNumber } as const),
 	setUsersCount: (usersCount: number) => ({ type: 'SET_USERS_COUNT', usersCount } as const),
+	setUsersCountOnPage: (usersCountOnPage: number) => ({ type: 'SET_USERS_COUNT_ON_PAGE', usersCountOnPage } as const),
 	setFetching: (isFetching: boolean) => ({ type: 'SET_FETCHING', isFetching } as const),
 	toggleIsFollowing: (isFollowing: boolean, userId: number) => ({ type: 'TOGGLE_IS_FOLLOWING', isFollowing, userId } as const),
 }
@@ -82,6 +88,7 @@ export const responseUsers = (usersCountOnPage: number, currentPage: number, fil
 	return async (dispatch) => {
 		dispatch(actionsUsersReducer.setFetching(true));
 		dispatch(actionsUsersReducer.setPageToCurrent(currentPage));
+		dispatch(actionsUsersReducer.setUsersCountOnPage(usersCountOnPage));
 		dispatch(actionsUsersReducer.setFilter(filter));
 		console.log('before')
 		const response = await usersAPI.getUsers(usersCountOnPage, currentPage, filter);

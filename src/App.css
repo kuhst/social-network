@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .app-wrapper {
   display  : grid;
   max-width: 1200px;

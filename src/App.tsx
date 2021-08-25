@@ -27,11 +27,7 @@ const Music = React.lazy(() => import("./components/Music/Music"));
 const DialogsContainer = React.lazy(
   () => import("./components/Dialogs/DialogsContainer")
 );
-const UsersPage = React.lazy(() =>
-  import("./components/Users/UsersPage").then(({ UsersPage }) => ({
-    default: UsersPage,
-  }))
-);
+const UsersPage = React.lazy(() => import("./components/Users/UsersPage"));
 
 type MapStatePropsType = ReturnType<typeof mapStateToProps>;
 type MapDispatchPropsType = {
