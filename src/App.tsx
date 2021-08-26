@@ -21,13 +21,13 @@ const LoginPage = React.lazy(() =>
 const ProfileInfoContainer = React.lazy(
   () => import("./components/ProfileInfo/ProfileInfoContainer")
 );
-const News = React.lazy(() => import("./components/News/News"));
 const Settings = React.lazy(() => import("./components/Settings/Settings"));
 const Music = React.lazy(() => import("./components/Music/Music"));
 const DialogsContainer = React.lazy(
   () => import("./components/Dialogs/DialogsContainer")
 );
 const UsersPage = React.lazy(() => import("./components/Users/UsersPage"));
+const ChatPage = React.lazy(() => import("./components/Chat/ChatPage"));
 
 type MapStatePropsType = ReturnType<typeof mapStateToProps>;
 type MapDispatchPropsType = {
@@ -36,6 +36,7 @@ type MapDispatchPropsType = {
 
 const SuspendedDialogs = withSuspense(DialogsContainer);
 const SuspendedUsers = withSuspense(UsersPage);
+const SuspendedChat = withSuspense(ChatPage);
 const SuspendedLogin = withSuspense(LoginPage);
 const SuspendedProfileInfo = withSuspense(ProfileInfoContainer);
 
@@ -69,7 +70,7 @@ class App extends React.Component<MapStatePropsType & MapDispatchPropsType> {
                   path='/profile/:userId?'
                   render={() => <ProfileContainer />}
                 />
-                <Route path='/news' render={withSuspense(News)} />
+                <Route path='/chat' render={() => <SuspendedChat />} />
                 <Route path='/music' render={withSuspense(Music)} />
                 <Route path='/users' render={() => <SuspendedUsers />} />
                 <Route path='/settings' render={withSuspense(Settings)} />

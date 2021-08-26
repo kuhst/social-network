@@ -90,9 +90,8 @@ export const responseUsers = (usersCountOnPage: number, currentPage: number, fil
 		dispatch(actionsUsersReducer.setPageToCurrent(currentPage));
 		dispatch(actionsUsersReducer.setUsersCountOnPage(usersCountOnPage));
 		dispatch(actionsUsersReducer.setFilter(filter));
-		console.log('before')
+		
 		const response = await usersAPI.getUsers(usersCountOnPage, currentPage, filter);
-		console.log('after')
 
 		dispatch(actionsUsersReducer.setUsers(response.items));
 		dispatch(actionsUsersReducer.setUsersCount(response.totalCount));

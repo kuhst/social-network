@@ -31,7 +31,7 @@ class Navbar extends React.Component<PropsType> {
     let navItems = [
       { link: "/profile", forInitialized: true, className: "" },
       { link: "/dialogs", forInitialized: true, className: "" },
-      { link: "/news", forInitialized: false, className: style.comingSoon },
+      { link: "/chat", forInitialized: true, className: "" },
       { link: "/music", forInitialized: false, className: style.comingSoon },
       { link: "/users", forInitialized: false, className: "" },
       { link: "/settings", forInitialized: false, className: style.comingSoon },
