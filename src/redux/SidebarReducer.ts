@@ -1,22 +1,65 @@
-import { FriendType } from "../type/type";
-
+import { FilterType } from './UsersReducer'
+import { usersAPI } from '../api/usersAPI'
+import { UserType } from '../type/type'
+import { BaseThunkType, InferActionsTypes } from './ReduxStore'
 
 let initialState = {
-	friends: [
-		{ id: 1, name: 'Perec', avatar: 'https://i0.wp.com/7youtube.ru/wp-content/uploads/2017/01/dmdmdmddsaaaa.jpg' },
-		{ id: 2, name: 'Vasia', avatar: 'http://cs622426.vk.me/v622426834/409d/baLqspYwi84.jpg' },
-		{ id: 3, name: 'Vova', avatar: 'https://ispolnu.ru/uploads/services/20180618/1529316303dbca.jpg' },
-		{ id: 4, name: 'Anton', avatar: 'https://discordgid.ru/wp-content/uploads/2020/03/diskord-avatar.jpg' },
-		{ id: 5, name: 'Mary', avatar: 'https://omoro.ru/wp-content/uploads/2018/05/prikilnie-kartinki-na-avatarky-dlia-devyshek-9.jpg' },
-		{ id: 6, name: 'Kolja', avatar: 'https://f1.upet.com/A_r2u6uZhnxA_x.jpg' },
-		{ id: 7, name: 'Dron', avatar: 'https://pristor.ru/wp-content/uploads/2018/07/%D0%9E%D1%82%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D0%BA%D0%B8-%D0%B8-%D1%84%D0%BE%D1%82%D0%BE-%D0%BD%D0%B0-%D0%B0%D0%B2%D0%B0%D1%82%D0%B0%D1%80%D0%BA%D1%83-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%B0%D1%80%D0%BD%D0%B5%D0%B9-%D0%B8-%D0%BC%D1%83%D0%B6%D1%87%D0%B8%D0%BD-%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B0-2018-17-726x1024.jpg' },
-	] as Array<FriendType>,
+    friends: [] as Array<UserType>,
+    isFetching: false,
+    friendsCount: 0,
 }
 
-const sidebarReducer = (state = initialState, action: any): InitialStateType => {
-	return state;
-};
+const sidebarReducer = (
+    state = initialState,
+    action: ActionsType
+): InitialStateType => {
+    switch (action.type) {
+        case 'sidebarAction_SET_FRIENDS':
+            return {
+                ...state,
+                friends: action.friends,
+            }
+        case 'sidebarAction_SET_FETCHING':
+            return {
+                ...state,
+                isFetching: action.isFetching,
+            }
+        case 'sidebarAction_SET_FRIENDS_COUNT':
+            return {
+                ...state,
+                friendsCount: action.friendsCount,
+            }
+        default:
+            return state
+    }
+}
 
-export default sidebarReducer;
+export const actionsSidebarReducer = {
+    setUsersFriends: (friends: Array<UserType>) =>
+        ({ type: 'sidebarAction_SET_FRIENDS', friends } as const),
+    setFetching: (isFetching: boolean) =>
+        ({ type: 'sidebarAction_SET_FETCHING', isFetching } as const),
+    setFriendsCount: (friendsCount: number) =>
+        ({ type: 'sidebarAction_SET_FRIENDS_COUNT', friendsCount } as const),
+}
 
-type InitialStateType = typeof initialState;
+export const getFriends = (): ThunkType => {
+    return async (dispatch) => {
+        dispatch(actionsSidebarReducer.setFetching(true))
+
+        const response = await usersAPI.getUsers(12, 1, {
+            friend: true,
+            term: '',
+        } as FilterType)
+
+        dispatch(actionsSidebarReducer.setUsersFriends(response.items))
+        dispatch(actionsSidebarReducer.setFriendsCount(response.totalCount))
+        dispatch(actionsSidebarReducer.setFetching(false))
+    }
+}
+
+export default sidebarReducer
+
+type InitialStateType = typeof initialState
+type ActionsType = InferActionsTypes<typeof actionsSidebarReducer>
+type ThunkType = BaseThunkType<ActionsType>

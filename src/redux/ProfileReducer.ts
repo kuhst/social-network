@@ -40,7 +40,7 @@ let initialState = {
 
 const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
 	switch (action.type) {
-		case 'ADD_POST':
+		case 'profileAction_ADD_POST':
 			return {
 				...state,
 				posts: [...state.posts, {
@@ -49,22 +49,22 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
 					likesCount: 0,
 				}]
 			};
-		case 'DELETE_POST':
+		case 'profileAction_DELETE_POST':
 			return {
 				...state,
 				posts: state.posts.filter(p => p.id !== action.postId)
 			};
-		case 'SET_USER_PROFILE':
+		case 'profileAction_SET_USER_PROFILE':
 			return {
 				...state,
 				userProfile: action.userProfile,
 			};
-		case 'SET_FETCHING':
+		case 'profileAction_SET_FETCHING':
 			return {
 				...state,
 				isFetching: action.fetching,
 			};
-		case 'SET_USER_STATUS':
+		case 'profileAction_SET_USER_STATUS':
 			return {
 				...state,
 				userStatus: action.status
@@ -75,11 +75,11 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
 
 
 export const actionsProfileReducer = {
-	addPost: (postText: string) => ({ type: 'ADD_POST', postText } as const),
-	deletePost: (postId: number) => ({ type: 'DELETE_POST', postId } as const),
-	setUserStatus: (status: string) => ({ type: 'SET_USER_STATUS', status } as const),
-	setUserProfile: (userProfile: ProfileType) => ({ type: 'SET_USER_PROFILE', userProfile } as const),
-	setFetching: (fetching: boolean) => ({ type: 'SET_FETCHING', fetching } as const)
+	addPost: (postText: string) => ({ type: 'profileAction_ADD_POST', postText } as const),
+	deletePost: (postId: number) => ({ type: 'profileAction_DELETE_POST', postId } as const),
+	setUserStatus: (status: string) => ({ type: 'profileAction_SET_USER_STATUS', status } as const),
+	setUserProfile: (userProfile: ProfileType) => ({ type: 'profileAction_SET_USER_PROFILE', userProfile } as const),
+	setFetching: (fetching: boolean) => ({ type: 'profileAction_SET_FETCHING', fetching } as const)
 }
 
 

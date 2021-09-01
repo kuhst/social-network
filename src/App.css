@@ -1,30 +1,39 @@
 @import '~antd/dist/antd.css';
 
 .app-wrapper {
-  display  : grid;
-  max-width: 1200px;
-  margin   : 0 auto;
-  padding  : 100px 30px;
+    display: grid;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 30px;
 
-  grid-template-areas:
-    'nav nav'
-    'content rightContent';
+    grid-template-areas:
+        'nav nav'
+        'content rightContent';
 
-  grid-gap             : 10px;
-  grid-template-rows   : 1fr 0;
-  grid-template-columns: 1fr 300px;
+    grid-gap: 10px;
+    grid-template-rows: 1fr 0;
+    grid-template-columns: 1fr 300px;
 }
 
 .app-wrapper-left {
-  grid-area: leftContent;
+    grid-area: leftContent;
 }
 
 .app-wrapper-content {
-  grid-area: content;
+    grid-area: content;
 }
 
 .app-wrapper-right {
-  grid-area: rightContent;
-  display  : grid;
-  grid-gap : 10px;
+    grid-area: rightContent;
+    display: grid;
+    grid-gap: 10px;
+}
+
+.example {
+    margin: 20px 0;
+    margin-bottom: 20px;
+    padding: 30px 50px;
+    vertical-align: middle;
+    text-align: center;
+    border-radius: 4px;
 }

@@ -1,150 +1,120 @@
-import React, { useEffect, useState } from "react";
-import style from "../../Style.module.css";
-import s from "./ChatPage.module.css";
-import { List, Avatar } from "antd";
-import { NavLink } from "react-router-dom";
-import { Formik } from "formik";
-import { Form, Input, SubmitButton } from "formik-antd";
-import InfiniteScroll from "react-infinite-scroll-component";
-
-type ChatMessageType = {
-  message: string;
-  photo: string;
-  userId: number;
-  userName: string;
-};
+import React, { useEffect } from 'react'
+import style from '../../Style.module.css'
+import { List, Avatar, Space, Spin } from 'antd'
+import { NavLink } from 'react-router-dom'
+import { Formik } from 'formik'
+import { Form, Input, SubmitButton } from 'formik-antd'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+    sendMessage,
+    startMessagesListening,
+    stopMessagesListening,
+} from '../../redux/ChatReducer'
+import { AppStateType } from '../../redux/ReduxStore'
+import { getStatus } from '../../redux/chatSelector'
 
 const ChatPage = () => {
-  const [wsChannel, setWsChanel] = useState<WebSocket | null>(null);
+    const status = useSelector(getStatus)
 
-  useEffect(() => {
-    let ws: WebSocket;
-    let closeHandler = () => {
-      console.log("close");
-      createChanel();
-    };
+    const dispatch = useDispatch()
 
-    const createChanel = () => {
-      ws?.removeEventListener("close", closeHandler);
-      ws?.close();
+    useEffect(() => {
+        dispatch(startMessagesListening())
+        return () => {
+            dispatch(stopMessagesListening())
+        }
+    }, [])
 
-      ws = new WebSocket(
-        "wss://social-network.samuraijs.com/handlers/ChatHandler.ashx"
-      );
-      console.log("create ws");
+    return (
+        <Spin spinning={status === 'pending'} size="large">
+            <div className={style.block}>
+                <ChatMessages />
+                <AddChatMessage status={status} />
+            </div>
+        </Spin>
+    )
+}
 
-      ws.addEventListener("close", closeHandler);
+const ChatMessages: React.FC = () => {
+    const messages = useSelector((state: AppStateType) => state.chat.messages)
+    console.log('>>>>messages')
+    return (
+        <div
+            id="scrollableDiv"
+            style={{
+                height: 300,
+                overflow: 'auto',
+                display: 'flex',
+                flexDirection: 'column-reverse',
+            }}
+        >
+            <InfiniteScroll
+                dataLength={messages.length}
+                next={() => {}}
+                hasMore={false}
+                loader={<h4>Loading...</h4>}
+                scrollableTarget="scrollableDiv"
+            >
+                <List
+                    itemLayout="horizontal"
+                    style={{ margin: '0 20px' }}
+                    dataSource={messages}
+                    renderItem={(item) => (
+                        <List.Item>
+                            <List.Item.Meta
+                                avatar={<Avatar src={item.photo} />}
+                                title={
+                                    <NavLink to={`/profile/` + item.userId}>
+                                        {item.userName}
+                                    </NavLink>
+                                }
+                                description={item.message}
+                            />
+                        </List.Item>
+                    )}
+                />
+            </InfiniteScroll>
+        </div>
+    )
+}
 
-      setWsChanel(ws);
-    };
+const AddChatMessage: React.FC<ChatAddMessagePropsType> = ({ status }) => {
+    const dispatch = useDispatch()
 
-    createChanel();
+    return (
+        <div style={{ padding: 20, paddingTop: 5 }}>
+            <Formik
+                initialValues={{
+                    textMessage: '',
+                }}
+                onSubmit={(values) => {
+                    dispatch(sendMessage(values.textMessage))
+                }}
+            >
+                <Form>
+                    <Input.TextArea
+                        name="textMessage"
+                        showCount
+                        maxLength={100}
+                        allowClear
+                        autoSize={{ minRows: 2, maxRows: 6 }}
+                    />
+                    <SubmitButton
+                        loading={false}
+                        disabled={status === 'pending'}
+                        style={{ marginTop: 10 }}
+                    >
+                        Send
+                    </SubmitButton>
+                </Form>
+            </Formik>
+        </div>
+    )
+}
 
-    return () => {
-      ws.removeEventListener("close", closeHandler);
-      ws.close();
-    };
-  }, []);
+export default ChatPage
 
-  return (
-    <div className={style.block}>
-      <ChatMessages wsChannel={wsChannel} />
-      <AddChatMessage wsChannel={wsChannel} />
-    </div>
-  );
-};
-
-const ChatMessages: React.FC<{ wsChannel: WebSocket | null }> = ({
-  wsChannel,
-}) => {
-  const [messages, setMessages] = useState<ChatMessageType[]>([]);
-
-  useEffect(() => {
-    let messageHandler = (e: MessageEvent) => {
-      let newMessages = JSON.parse(e.data);
-      setMessages((prevMessages) => [...prevMessages, ...newMessages]);
-    };
-    wsChannel?.addEventListener("message", messageHandler);
-
-    return () => {
-      wsChannel?.removeEventListener("message", messageHandler);
-    };
-  }, [wsChannel]);
-
-  return (
-    <div
-      id='scrollableDiv'
-      style={{
-        height: 300,
-        overflow: "auto",
-        display: "flex",
-        flexDirection: "column-reverse",
-      }}
-    >
-      <InfiniteScroll
-        dataLength={messages.length}
-        next={() => {}}
-        hasMore={false}
-        loader={<h4>Loading...</h4>}
-        scrollableTarget='scrollableDiv'
-      >
-        <List
-          itemLayout='horizontal'
-          dataSource={messages}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar src={item.photo} />}
-                title={
-                  <NavLink to={`/profile/` + item.userId}>
-                    {item.userName}
-                  </NavLink>
-                }
-                description={item.message}
-              />
-            </List.Item>
-          )}
-        />
-      </InfiniteScroll>
-    </div>
-  );
-};
-
-const AddChatMessage: React.FC<{ wsChannel: WebSocket | null }> = ({
-  wsChannel,
-}) => {
-  const [readyStatus, setReadyStatus] = useState<boolean>(false);
-  useEffect(() => {
-    let openHandler = () => {
-      console.log("ready");
-      setReadyStatus(true);
-    };
-    wsChannel?.addEventListener("open", openHandler);
-
-    return () => {
-      wsChannel?.removeEventListener("open", openHandler);
-    };
-  }, [wsChannel]);
-
-  return (
-    <div>
-      <Formik
-        initialValues={{
-          textMessage: "",
-        }}
-        onSubmit={(values) => {
-          wsChannel?.send(values.textMessage);
-        }}
-      >
-        <Form>
-          <Input name='textMessage' type='text' />
-          <SubmitButton loading={false} disabled={!readyStatus}>
-            Search
-          </SubmitButton>
-        </Form>
-      </Formik>
-    </div>
-  );
-};
-
-export default ChatPage;
+type ChatAddMessagePropsType = {
+    status: 'ready' | 'pending' | 'error'
+}
