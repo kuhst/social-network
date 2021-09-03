@@ -60,7 +60,6 @@ const UsersPage: React.FC<PropsType> = React.memo((props) => {
                         : false,
             }
 
-        console.log(parsed)
         dispatch(
             responseUsers(usersCountOnPage, actualPage, actualFilter, false)
         )

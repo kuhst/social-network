@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppStateType } from '../../../redux/ReduxStore'
 import { Button, Space } from 'antd'
 import { getFriends } from '../../../redux/SidebarReducer'
+import { NavLink } from 'react-router-dom'
 
 const FriendBlock = () => {
     let friends = useSelector((state: AppStateType) => state.sidebar.friends)
@@ -31,9 +32,11 @@ const FriendBlock = () => {
             </div>
             <Space className={s.container} size="small">
                 {friendsArr}
-                <Button type="primary" shape="circle" size="large">
-                    +{friendsCount - friends.length}
-                </Button>
+                <NavLink to={'/friends'}>
+                    <Button type="primary" shape="circle" size="large">
+                        +{friendsCount - friends.length}
+                    </Button>
+                </NavLink>
             </Space>
         </div>
     )

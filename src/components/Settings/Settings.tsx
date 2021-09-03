@@ -1,13 +1,7 @@
-import React from 'react';
-import s from './Settings.module.css';
-
+import React from 'react'
 
 const Settings = () => {
-	return (
-		<div>
-			Settings page
-		</div>
-	)
+    return <div>Settings page</div>
 }
 
 export default Settings

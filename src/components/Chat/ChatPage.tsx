@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import style from '../../Style.module.css'
-import { List, Avatar, Space, Spin } from 'antd'
+import { List, Avatar, Spin } from 'antd'
 import { NavLink } from 'react-router-dom'
 import { Formik } from 'formik'
 import { Form, Input, SubmitButton } from 'formik-antd'
@@ -13,6 +13,7 @@ import {
 } from '../../redux/ChatReducer'
 import { AppStateType } from '../../redux/ReduxStore'
 import { getStatus } from '../../redux/chatSelector'
+import { UserPhotoPlaceholder } from '../elements/UserPhotoPlaceholder'
 
 const ChatPage = () => {
     const status = useSelector(getStatus)
@@ -38,7 +39,6 @@ const ChatPage = () => {
 
 const ChatMessages: React.FC = () => {
     const messages = useSelector((state: AppStateType) => state.chat.messages)
-    console.log('>>>>messages')
     return (
         <div
             id="scrollableDiv"
@@ -63,7 +63,12 @@ const ChatMessages: React.FC = () => {
                     renderItem={(item) => (
                         <List.Item>
                             <List.Item.Meta
-                                avatar={<Avatar src={item.photo} />}
+                                avatar={
+                                    <Avatar
+                                        src={item.photo}
+                                        icon={<UserPhotoPlaceholder />}
+                                    />
+                                }
                                 title={
                                     <NavLink to={`/profile/` + item.userId}>
                                         {item.userName}

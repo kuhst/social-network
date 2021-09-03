@@ -11,12 +11,18 @@ import {
     responseUsers,
     unfollow,
 } from '../../redux/UsersReducer'
-import { getUsers, getUsersCount } from '../../redux/usersSelector'
+import {
+    getFollowingInProgress,
+    getUsers,
+    getUsersCount,
+} from '../../redux/usersSelector'
+import { UserPhotoPlaceholder } from '../elements/UserPhotoPlaceholder'
 
 const FriendsPage = React.memo(() => {
     const [pageNumber, setPageNumber] = useState(1)
     const users = useSelector(getUsers)
     const usersCount = useSelector(getUsersCount)
+    const followingInProgress = useSelector(getFollowingInProgress)
     const dispatch = useDispatch()
     const getMoreFriends = () => {
         dispatch(
@@ -49,7 +55,6 @@ const FriendsPage = React.memo(() => {
             dispatch(actionsUsersReducer.setUsers([]))
         }
     }, [])
-    console.log('component update')
     return (
         <div className={style.block}>
             <InfiniteScroll
@@ -73,6 +78,7 @@ const FriendsPage = React.memo(() => {
                                             src={item.photos.large}
                                             size={100}
                                             style={{ marginLeft: 20 }}
+                                            icon={<UserPhotoPlaceholder />}
                                         />
                                     </NavLink>
                                 }
@@ -90,6 +96,9 @@ const FriendsPage = React.memo(() => {
                                         onClick={() => {
                                             dispatch(unfollow(item.id))
                                         }}
+                                        disabled={followingInProgress.some(
+                                            (userId) => userId === item.id
+                                        )}
                                     >
                                         Unfollow
                                     </Button>
@@ -99,6 +108,9 @@ const FriendsPage = React.memo(() => {
                                         onClick={() => {
                                             dispatch(follow(item.id))
                                         }}
+                                        disabled={followingInProgress.some(
+                                            (userId) => userId === item.id
+                                        )}
                                     >
                                         Follow
                                     </Button>
