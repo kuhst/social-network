@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/Settings/Settings.tsx"],"names":["Settings"],"mappings":"yGAAA,uBAMeA,UAJE,WAChB,OAAO","file":"static/js/11.36bb8daa.chunk.js","sourcesContent":["import React from 'react'\n\nconst Settings = () => {\n\treturn <div>Settings page</div>\n}\n\nexport default Settings\n"],"sourceRoot":""}
