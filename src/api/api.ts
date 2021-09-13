@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios'
 
 export const instanceAxios = axios.create({
 	withCredentials: true,
 	headers: {
-		'API-KEY': '65f23381-a001-469d-b8d8-33dccd7a4fd2'
+		'API-KEY': '71bc2887-8a06-449b-b233-4c545a091aa6',
 	},
-	baseURL: 'https://social-network.samuraijs.com/api/1.0'
+	baseURL: 'https://social-network.samuraijs.com/api/1.0',
 })
 
 export type APIResponseType<D = {}, RC = ResultCodeEnum> = {
@@ -16,9 +16,9 @@ export type APIResponseType<D = {}, RC = ResultCodeEnum> = {
 
 export enum ResultCodeEnum {
 	Success = 0,
-	Error = 1
+	Error = 1,
 }
 
 export enum ResultCodeForCaptcha {
-	CaptchaIsRequired = 10
+	CaptchaIsRequired = 10,
 }

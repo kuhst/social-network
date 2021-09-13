@@ -1,6 +1,6 @@
-import React from 'react';
-import s from './Navbar.module.css';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import s from './Navbar.module.css'
+import { NavLink } from 'react-router-dom'
 
 type PropsType = {
 	link: string
@@ -17,4 +17,4 @@ export const MenuItem: React.FC<PropsType> = (props) => {
 	)
 }
 
-export default MenuItem;
+export default MenuItem

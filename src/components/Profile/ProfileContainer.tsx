@@ -1,13 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { compose } from 'redux';
-import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { getMiId } from '../../redux/authSelector';
-import { getUser } from '../../redux/ProfileReducer';
-import { getUserProfile } from '../../redux/profileSelector';
-import { AppStateType } from '../../redux/ReduxStore';
-import Profile from './Profile';
+import React from 'react'
+import { connect } from 'react-redux'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { compose } from 'redux'
+import { withAuthRedirect } from '../../hoc/withAuthRedirect'
+import { getMiId } from '../../redux/authSelector'
+import { getUser } from '../../redux/ProfileReducer'
+import { getUserProfile } from '../../redux/profileSelector'
+import { AppStateType } from '../../redux/ReduxStore'
+import Profile from './Profile'
 
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>
 type MapDispatchToProps = {
@@ -20,8 +20,8 @@ type PropsType = RouteComponentProps<PathParamsType> & MapStateToPropsType & Map
 
 class ProfileContainer extends React.Component<PropsType> {
 	refreshProfile = () => {
-		let userId: number | null = +this.props.match.params.userId || this.props.miId;
-		this.props.getUser(userId as number);
+		let userId: number | null = +this.props.match.params.userId || this.props.miId
+		this.props.getUser(userId as number)
 	}
 
 	componentDidMount = () => {
@@ -29,8 +29,7 @@ class ProfileContainer extends React.Component<PropsType> {
 	}
 
 	componentDidUpdate = (prevProps: PropsType) => {
-		if (this.props.match.params.userId !== prevProps.match.params.userId)
-			this.refreshProfile()
+		if (this.props.match.params.userId !== prevProps.match.params.userId) this.refreshProfile()
 	}
 
 	render = () => {
@@ -41,7 +40,7 @@ class ProfileContainer extends React.Component<PropsType> {
 const mapStateToProps = (state: AppStateType) => {
 	return {
 		userProfile: getUserProfile(state),
-		miId: getMiId(state)
+		miId: getMiId(state),
 	}
 }
 

@@ -1,161 +1,161 @@
 .header {
-    height: 70px;
-    width: 100%;
-    position: fixed;
-    background-color: #515365;
-    z-index: 5;
+	height: 70px;
+	width: 100%;
+	position: fixed;
+	background-color: #515365;
+	z-index: 5;
 }
 
 .container {
-    height: 100%;
-    display: flex;
-    align-items: center;
+	height: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .login {
-    color: white;
-    height: 20px;
-    font-weight: 700;
-    background-color: tomato;
-    border-radius: 3px;
-    padding: 5px 30px;
-    transition: all 0.3s ease-in-out;
+	color: white;
+	height: 20px;
+	font-weight: 700;
+	background-color: tomato;
+	border-radius: 3px;
+	padding: 5px 30px;
+	transition: all 0.3s ease-in-out;
 }
 
 .login:hover {
-    background-color: #ff8771;
-    color: white;
+	background-color: #ff8771;
+	color: white;
 }
 
 .logo {
-    display: flex;
-    flex-direction: column;
-    color: white;
+	display: flex;
+	flex-direction: column;
+	color: white;
 }
 
 .mainName {
-    font-size: 2em;
-    font-weight: 700;
-    line-height: 0.9em;
+	font-size: 2em;
+	font-weight: 700;
+	line-height: 0.9em;
 }
 
 .secondName {
-    min-width: max-content;
-    line-height: 0.8em;
-    letter-spacing: 0.27em;
+	min-width: max-content;
+	line-height: 0.8em;
+	letter-spacing: 0.27em;
 }
 
 .search {
-    width: 300px;
-    height: 30px;
-    border: none;
-    border-radius: 2px;
-    background-color: #5f6279;
-    color: white;
-    padding: 0 10px;
-    outline: none;
-    transition: all 0.3s ease-in-out;
+	width: 300px;
+	height: 30px;
+	border: none;
+	border-radius: 2px;
+	background-color: #5f6279;
+	color: white;
+	padding: 0 10px;
+	outline: none;
+	transition: all 0.3s ease-in-out;
 }
 
 .search::placeholder {
-    color: #888da8;
+	color: #888da8;
 }
 
 .search:focus {
-    background-color: white;
-    color: #515365;
+	background-color: white;
+	color: #515365;
 }
 
 .freeSpace {
-    flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .menuList {
-    display: flex;
-    margin: 0;
+	display: flex;
+	margin: 0;
 }
 
 .menuLink {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    flex-grow: 0;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	flex-grow: 0;
 }
 
 .user {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    max-width: min-content;
-    margin-left: 20px;
-    cursor: pointer;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+	max-width: min-content;
+	margin-left: 20px;
+	cursor: pointer;
 }
 
 .user:hover .arrow {
-    transform: rotate(90deg) scaleY(140%) scaleX(120%);
+	transform: rotate(90deg) scaleY(140%) scaleX(120%);
 }
 
 .menu {
-    display: none;
-    cursor: default;
+	display: none;
+	cursor: default;
 }
 
 .menu::before {
-    position: absolute;
-    content: '';
-    height: 0;
-    width: 0;
-    top: 41px;
-    right: 20px;
-    border-bottom: 10px solid white;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    z-index: 1;
+	position: absolute;
+	content: '';
+	height: 0;
+	width: 0;
+	top: 41px;
+	right: 20px;
+	border-bottom: 10px solid white;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	z-index: 1;
 }
 
 .user:hover .menu {
-    display: block;
+	display: block;
 }
 
 .userPhoto {
-    flex: 0 0 40px;
-    margin: 0 10px 0 20px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
+	flex: 0 0 40px;
+	margin: 0 10px 0 20px;
+	height: 40px;
+	border-radius: 50%;
+	overflow: hidden;
 }
 
 .userPhoto img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .controlBlock {
-    flex-grow: 0;
-    flex-basis: content;
-    min-width: max-content;
+	flex-grow: 0;
+	flex-basis: content;
+	min-width: max-content;
 }
 
 .name {
-    color: white;
-    font-weight: 700;
-    font-size: 1em;
+	color: white;
+	font-weight: 700;
+	font-size: 1em;
 }
 
 .arrow {
-    color: white;
-    margin: 10px;
-    transform: scaleY(150%) scaleX(100%);
-    font-size: 12px;
-    transition: all 0.3s;
+	color: white;
+	margin: 10px;
+	transform: scaleY(150%) scaleX(100%);
+	font-size: 12px;
+	transition: all 0.3s;
 }
 
 .status {
-    font-size: 0.7em;
-    color: white;
-    position: relative;
+	font-size: 0.7em;
+	color: white;
+	position: relative;
 }

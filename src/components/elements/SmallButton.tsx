@@ -1,5 +1,5 @@
-import React from 'react';
-import s from './SmallButton.module.css';
+import React from 'react'
+import s from './SmallButton.module.css'
 
 type PropsType = {
 	value: string
@@ -9,11 +9,15 @@ type PropsType = {
 
 const SmallButton: React.FC<PropsType> = (props) => {
 	return (
-		<div >
-			<button className={s.button + ' ' + (props.value === 'Cancel' ? s.cancel : '')} onClick={props.click} disabled={props.disabled}>{props.value}</button>
-		</div >
+		<div>
+			<button
+				className={s.button + ' ' + (props.value === 'Cancel' ? s.cancel : '')}
+				onClick={props.click}
+				disabled={props.disabled}>
+				{props.value}
+			</button>
+		</div>
 	)
 }
 
-export default SmallButton;
-
+export default SmallButton

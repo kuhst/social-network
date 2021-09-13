@@ -1,6 +1,5 @@
-import React from "react";
-import { Suspense } from "react";
-
+import React from 'react'
+import { Suspense } from 'react'
 
 function withSuspense<WSP>(Component: React.ComponentType<WSP>) {
 	return (props: WSP) => {
@@ -12,4 +11,4 @@ function withSuspense<WSP>(Component: React.ComponentType<WSP>) {
 	}
 }
 
-export default withSuspense;
+export default withSuspense

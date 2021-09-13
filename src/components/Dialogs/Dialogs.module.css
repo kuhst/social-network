@@ -1,5 +1,5 @@
 .dialogs {
-	display              : grid;
+	display: grid;
 	grid-template-columns: 1fr 2fr;
 }
 
@@ -8,29 +8,29 @@
 }
 
 .dialogItems :hover {
-	background-color: #FAFBFD;
+	background-color: #fafbfd;
 }
 
 .messages {
-	padding       : 20px;
-	display       : flex;
+	padding: 20px;
+	display: flex;
 	flex-direction: column;
-	flex-wrap     : nowrap;
+	flex-wrap: nowrap;
 }
 
 .message {
-	max-width       : 70%;
-	width           : fit-content;
+	max-width: 70%;
+	width: fit-content;
 	background-color: #f0f4f9;
-	border-radius   : 5px;
-	padding         : 5px 25px;
-	margin          : 5px 0;
+	border-radius: 5px;
+	padding: 5px 25px;
+	margin: 5px 0;
 }
 
 .mi {
-	align-self      : flex-end;
-	text-align      : right;
-	color           : white;
+	align-self: flex-end;
+	text-align: right;
+	color: white;
 	background-color: #7c5ac2;
 }
 
@@ -43,17 +43,17 @@
 }
 
 .dialog {
-	display      : flex;
-	align-items  : center;
-	font-weight  : 700;
-	padding      : 20px 30px;
+	display: flex;
+	align-items: center;
+	font-weight: 700;
+	padding: 20px 30px;
 	border-bottom: 1px solid #e6ecf5;
 }
 
 .dialog a {
-	color          : #888da8;
-	font-weight    : 700;
-	font-size      : 14px;
+	color: #888da8;
+	font-weight: 700;
+	font-size: 14px;
 	text-decoration: none;
 }
 
@@ -61,48 +61,47 @@
 	border-bottom: none;
 }
 
-
 .active {
-	background-color: #FAFBFD;
-	color           : #515365;
+	background-color: #fafbfd;
+	color: #515365;
 }
 
 .avatar {
-	position     : relative;
-	flex         : 0 0 45px;
-	height       : 45px;
+	position: relative;
+	flex: 0 0 45px;
+	height: 45px;
 	border-radius: 50%;
-	overflow     : hidden;
-	margin-right : 20px;
+	overflow: hidden;
+	margin-right: 20px;
 }
 
 .avatar img {
-	width     : 100%;
-	height    : 100%;
+	width: 100%;
+	height: 100%;
 	object-fit: cover;
 }
 
 .messageAdd {
-	margin-top    : 30px;
-	width         : 100%;
-	display       : flex;
+	margin-top: 30px;
+	width: 100%;
+	display: flex;
 	flex-direction: column;
 }
 
 .messageAdd textarea {
-	display        : block;
-	outline        : none;
+	display: block;
+	outline: none;
 	-moz-appearance: none;
-	min-height     : 50px;
-	margin         : 0;
-	resize         : none;
-	overflow       : hidden;
-	border         : 1px solid #e6ecf5;
-	padding        : 10px;
-	font-family    : Roboto;
-	color          : #515365;
-	border-radius  : 5px;
-	transition     : all ease-in-out .3s;
+	min-height: 50px;
+	margin: 0;
+	resize: none;
+	overflow: hidden;
+	border: 1px solid #e6ecf5;
+	padding: 10px;
+	font-family: Roboto;
+	color: #515365;
+	border-radius: 5px;
+	transition: all ease-in-out 0.3s;
 }
 
 .messageAdd textarea:focus {
@@ -110,5 +109,6 @@
 }
 
 .messageAdd :last-child {
+	margin-top: 5px;
 	align-self: flex-end;
 }

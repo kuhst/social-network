@@ -1,6 +1,5 @@
-import { ThunkAction } from "redux-thunk";
-import { AppStateType, InferActionsTypes } from "./ReduxStore";
-
+import { ThunkAction } from 'redux-thunk'
+import { AppStateType, InferActionsTypes } from './ReduxStore'
 
 let initialState = {
 	dialogsData: [
@@ -14,7 +13,12 @@ let initialState = {
 		{ id: 2, message: 'How is your programing?', from: 'friend' },
 		{ id: 3, message: 'Ok', from: 'mi' },
 		{ id: 4, message: 'Cool!', from: 'friend' },
-		{ id: 5, message: 'Some log message. skfjnvksv sdoiv csodifvjc skdjvn sdfcjvsfldkv dsfkv dfkjnvd kfjvnd', from: 'mi' },
+		{
+			id: 5,
+			message:
+				'Some log message. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Earum sint enim est sequi voluptatem vel illo iusto neque, ab, nihil qui quae cumque fugit praesentium, tempora at? Molestiae, asperiores voluptatem.',
+			from: 'mi',
+		},
 	] as Array<MessageType>,
 }
 
@@ -23,31 +27,31 @@ const dialogsReducer = (state = initialState, action: ActionsType): InitialState
 		case 'dialogAction_ADD_MESSAGE':
 			return {
 				...state,
-				messages: [...state.messages, {
-					id: ++state.messages.length,
-					message: action.message,
-					from: 'mi',
-				}],
+				messages: [
+					...state.messages,
+					{
+						id: ++state.messages.length,
+						message: action.message,
+						from: 'mi',
+					},
+				],
 			}
-		default: return state;
-	};
-};
-
-
-
-export const actionsDialogReducer = {
-	addMessageAC: (message: string) => ({ type: 'dialogAction_ADD_MESSAGE', message })
-}
-
-
-export const addMessage = (message: string): ThunkType => {
-	return async (dispatch) => {
-		dispatch(actionsDialogReducer.addMessageAC(message));
+		default:
+			return state
 	}
 }
 
-export default dialogsReducer;
+export const actionsDialogReducer = {
+	addMessageAC: (message: string) => ({ type: 'dialogAction_ADD_MESSAGE', message }),
+}
 
+export const addMessage = (message: string): ThunkType => {
+	return async (dispatch) => {
+		dispatch(actionsDialogReducer.addMessageAC(message))
+	}
+}
+
+export default dialogsReducer
 
 type DialogType = {
 	id: number

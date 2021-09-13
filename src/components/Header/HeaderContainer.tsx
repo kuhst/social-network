@@ -1,9 +1,16 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Header from './Header';
-import { setStatus, logOut } from '../../redux/AuthReducer';
-import { getIsAuth, getLoadingStatus, getMiFoolName, getMiId, getMiPhotoSmall, getMiStatus } from '../../redux/authSelector';
-import { AppStateType } from '../../redux/ReduxStore';
+import React from 'react'
+import { connect } from 'react-redux'
+import Header from './Header'
+import { setStatus, logOut } from '../../redux/AuthReducer'
+import {
+	getIsAuth,
+	getLoadingStatus,
+	getMiFoolName,
+	getMiId,
+	getMiPhotoSmall,
+	getMiStatus,
+} from '../../redux/authSelector'
+import { AppStateType } from '../../redux/ReduxStore'
 
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>
 type MapDispatchToPropsType = {
@@ -13,13 +20,15 @@ type MapDispatchToPropsType = {
 class HeaderContainer extends React.Component<MapStateToPropsType & MapDispatchToPropsType> {
 	render = () => {
 		return (
-			<Header miName={this.props.miName}
+			<Header
+				miName={this.props.miName}
 				status={this.props.status}
 				logOut={this.props.logOut}
 				isAuth={this.props.isAuth}
 				photo={this.props.photo}
 				loading={this.props.loading}
-				setStatus={this.props.setStatus} />
+				setStatus={this.props.setStatus}
+			/>
 		)
 	}
 }
@@ -33,4 +42,4 @@ const mapStateToProps = (state: AppStateType) => ({
 	loading: getLoadingStatus(state),
 })
 
-export default connect(mapStateToProps, { setStatus, logOut })(HeaderContainer);
+export default connect(mapStateToProps, { setStatus, logOut })(HeaderContainer)

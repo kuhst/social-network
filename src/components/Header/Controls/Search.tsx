@@ -1,6 +1,5 @@
-import React from 'react';
-import s from './Search.module.css';
-
+import React from 'react'
+import s from './Search.module.css'
 
 const Header = () => {
 	return (
@@ -11,4 +10,4 @@ const Header = () => {
 	)
 }
 
-export default Header;
+export default Header

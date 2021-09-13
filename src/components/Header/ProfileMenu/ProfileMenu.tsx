@@ -1,7 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import style from '../../../Style.module.css'
 import s from './ProfileMenu.module.css'
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom'
 
 type PropsType = {
 	status: string | null
@@ -10,16 +10,15 @@ type PropsType = {
 }
 
 const ProfileMenu: React.FC<PropsType> = React.memo((props) => {
-
-	const [status, setStatus] = useState(props.status);
+	const [status, setStatus] = useState(props.status)
 
 	useEffect(() => {
 		setStatus(props.status)
-	}, [props.status]);
+	}, [props.status])
 
 	const applyStatusChange = () => {
-		props.setStatus(status as string);
-	};
+		props.setStatus(status as string)
+	}
 
 	const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setStatus(e.currentTarget.value)
@@ -28,24 +27,23 @@ const ProfileMenu: React.FC<PropsType> = React.memo((props) => {
 	return (
 		<div className={s.menu}>
 			<div className={style.block + ' ' + s.menuContainer}>
-				<div className={s.menuName}>
-					YOUR ACCOUNT
-				</div>
+				<div className={s.menuName}>YOUR ACCOUNT</div>
 				<ul className={s.menuList}>
 					<NavLink to={'/profile/settings'}>
-						<li className={s.menuLink}>
-							Profile Settings
-						</li>
+						<li className={s.menuLink}>Profile Information</li>
 					</NavLink>
 					<li onClick={props.logOut} className={s.menuLink + ' ' + s.signOut}>
 						<span>Sign out</span>
 					</li>
 				</ul>
-				<div className={s.menuName}>
-					CHANGE STATUS
-				</div>
+				<div className={s.menuName}>CHANGE STATUS</div>
 				<div className={s.statusChange}>
-					<input onChange={onStatusChange} autoFocus={true} placeholder="Type new post..." value={status ? status : undefined} />
+					<input
+						onChange={onStatusChange}
+						autoFocus={true}
+						placeholder='Type new post...'
+						value={status ? status : undefined}
+					/>
 					<button onClick={applyStatusChange}>Sent</button>
 				</div>
 			</div>
